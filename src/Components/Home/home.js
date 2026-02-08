@@ -1,14 +1,12 @@
 
 import { Layout } from 'antd';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import HeaderComponent from '../Header/HeaderComponent';
 import "./home.css";
-import { fetchNewUsers } from '../../Redux/Action/ChatAction';
 import SideBar from '../SideBar/SideBar';
 import { getProfileAction } from '../../Redux/Action/UserAction';
 // import { socket } from '../../helpers/socket-connections';
-import FooterComponent from '../Footer/Footer';
 
 export const ExpenseContext = React.createContext();
 
@@ -24,7 +22,6 @@ function Home() {
         // socket.emit('add-online-user', sessionStorage.getItem("token"));
 
         dispatch(getProfileAction());
-        dispatch(fetchNewUsers());
     }, []);
 
 
