@@ -1,0 +1,58 @@
+/* Add Task Component */
+
+.task-card {
+    padding: 8px;
+    border: 1px solid #ccc;
+    gap: 9px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-main-title,
+.login-main-title {
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 25px);
+    color: #7091e6 !important;
+}
+
+.field-required {
+    color: red;
+    font-size: 13px;
+}
+
+
+.todo-field {
+    border-radius: 5px;
+    border: 1px solid #ccc !important;
+    font-size: 12px !important;
+    color: inherit !important;
+    background-color: inherit !important;
+}
+
+.todo-field::placeholder {
+    opacity: 0.5;
+    font-weight: 400;
+    font-size: 12px;
+    color: inherit !important;
+    background-color: inherit !important;
+}
+
+.todo-field:focus {
+    box-shadow: none !important;
+    border: 1px solid #9d9797 !important;
+    color: inherit !important;
+    background-color: inherit !important;
+}
+
+.react-datepicker__view-calendar-icon input {
+    height: 34px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+.adv-options-container {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}

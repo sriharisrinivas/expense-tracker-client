@@ -1,0 +1,48 @@
+.messages-container {
+    /* background: url("../../../public/chat-bg.jpg"); */
+    /* background-size: cover; */
+    /* background-color: aliceblue; */
+    padding: 24px;
+    height: 78vh;
+    overflow: scroll;
+}
+
+
+.message-box {
+    /* display: flex; */
+    /* border: 1px solid red; */
+    border: 1px solid #4b4242 !important;
+    border-radius: 10px;
+    /* padding: 5px; */
+    /* font-size: 14px; */
+    /* gap: 15px; */
+    margin: 4px 0;
+    /* width: 80%; */
+    /* width: 250px; */
+}
+
+.message-box p {
+    margin: 0;
+    padding: 0;
+}
+
+.sender-message-box {
+    padding: 5px;
+    background-color: aliceblue;
+    /* border: 1px solid red; */
+    align-self: end;
+    margin-left: 20px;
+}
+
+.receiver-message-box {
+    padding: 5px;
+    align-self: flex-start;
+    background-color: aliceblue;
+    /* border: 1px solid red; */
+}
+
+.contact-name {
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+}

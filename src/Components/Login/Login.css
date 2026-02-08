@@ -1,0 +1,47 @@
+.login-page {
+    width: 100%;
+}
+
+.login-left-section {
+    height: 100vh;
+    /* background: url("../../../public/stock-photo-coffee-cup-and-notebook-with-to-do-list-on-blue-rustic-desk-from-above-planning-and-design-concept-384639760.jpg"); */
+    background: url("../../../public/89125.jpg");
+    /* background: url("../../../public/Crush\ Your\ Own\ To-Do\ List.jfif"); */
+    background-size: cover;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* @media (max-width: 576px) {
+    .login-left-section {
+        display: none;
+    }
+} */
+
+.login-signup-container {
+    padding: 60px;
+    /* background: linear-gradient(178deg, #c3dae4, transparent); */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    /* padding: 40px;
+    max-height: 650px;
+    overflow-y: scroll; */
+
+    padding: 40px;
+    max-width: 340px;
+    border: 3px solid #ccc;
+    border-radius: 40px;
+    max-height: 650px;
+    overflow-y: scroll;
+}
+
+.input-group-text {
+    color: inherit;
+    background-color: inherit;
+}

@@ -1,0 +1,10 @@
+.grid-view-page-suggestion {
+    font-size: 20px;
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .grid-view-page-suggestion {
+        display: block;
+    }
+}

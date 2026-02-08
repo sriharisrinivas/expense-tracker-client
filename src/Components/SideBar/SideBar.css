@@ -1,0 +1,28 @@
+.sidebar-header {
+    -webkit-text-fill-color: #0000;
+    background: linear-gradient(90deg, #3f5efb, #fc466b);
+    -webkit-background-clip: text;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.sidebar-msg-text {
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.chat-list-item {
+    color: #ccc !important;
+    cursor: pointer;
+    border-bottom: 1px solid #453e3e !important;
+    justify-content: flex-start !important;
+}
+
+.chat-list-item:hover {
+    background-color: aliceblue;
+    color: black !important;
+    cursor: pointer;
+}

@@ -1,0 +1,124 @@
+.layout-container {
+    height: 100vh;
+
+}
+
+.ant-layout {
+    height: 100%;
+    /* border: 1px solid red; */
+}
+
+.ant-layout-sider {}
+
+@media (min-width: 576px) {
+    .ant-layout-sider {
+        min-width: 300px !important;
+    }
+}
+
+/* Side bar */
+.css-1wvake5 {
+    width: 242px !important;
+    min-width: 242px !important;
+}
+
+.pro-sidebar {
+    background-color: inherit !important;
+    color: inherit !important;
+    border: 1px solid #c3b3b3;
+}
+
+.nav-link {
+    color: inherit !important;
+}
+
+.offcanvas-body .nav-link {
+    text-align: center;
+}
+
+.sidebar-todo {
+    height: 92vh;
+}
+
+@media (max-width: 576px) {
+    .sidebar-todo {
+        display: none !important;
+    }
+}
+
+
+.footer-main-container {
+    position: fixed;
+    top: 90%;
+    width: 100%;
+}
+
+.footer-container {
+    display: none;
+    color: #7091E6;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.footer-container .form-text {
+    color: #7091E6 !important;
+    font-size: 10px;
+}
+
+.form-text {
+    color: inherit;
+    /* background-color: inherit; */
+}
+
+.footer-container i {
+    font-size: 15px;
+}
+
+.footer-box {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+@media (max-width: 576px) {
+    .footer-container {
+        padding: 10px;
+        margin: 10px 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border: 1px solid #7091E6;
+        border-radius: 30px;
+    }
+
+    .sidebar-and-content-container {
+        margin-bottom: 75px;
+    }
+}
+
+.chat-icon-container {
+    position: fixed;
+    right: 20px;
+    bottom: 32px;
+    background: green;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+/* 
+
+.modal-content {
+    color: inherit;
+    background-color: inherit;
+    border: 3px solid;
+    border-radius: 10px;
+} */

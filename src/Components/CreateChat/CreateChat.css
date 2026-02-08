@@ -1,0 +1,4 @@
+.user-list-item:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+}

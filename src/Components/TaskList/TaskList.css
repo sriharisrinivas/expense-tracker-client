@@ -1,0 +1,24 @@
+.legend-box {
+    width: 15px;
+    height: 15px;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.completed-tasks-container {
+    border-left: 16px solid;
+    border-color: #ACD793;
+    /* color: white; */
+}
+
+.pending-tasks-container {
+    border-left: 16px solid;
+    border-color: #FFC96F;
+    /* color: white; */
+}
+
+.deleted-tasks-container {
+    border-left: 16px solid;
+    border-color: #EE4E4E;
+    /* color: white; */
+}

@@ -1,0 +1,50 @@
+.cashbook-details-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    /* max-height: 346px; */
+    min-height: 100px;
+    overflow: scroll;
+}
+
+.cashbook-details-container {
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* height: 40px; */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.cashbook-date-text {
+    color: rgb(162 149 149);
+}
+
+.cashbook-total-container {
+    border: 1px solid rgba(0, 0, 0, 0.176);
+    border-radius: 5px;
+    padding: 10px;
+    background-color: aliceblue;
+    border-color: inherit;
+    /* position: absolute; */
+    /* top: 70px; */
+    /* bottom: 78px;
+    width: 82%; */
+}
+
+@media (min-width: 576px) {
+    .cashbook-total-container {
+        bottom: 5px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cashbook-total-container {
+        position: fixed;
+        /* Sidebar */
+        /* bottom: 78px; */
+        bottom: 10px;
+        width: 90%;
+    }
+}

@@ -1,0 +1,64 @@
+.header-container {
+    height: 60px;
+    /* height: 8vh; */
+    /* min-height: 8vh; */
+}
+
+.header-container i {
+    cursor: pointer;
+}
+
+.header-container .navbar-nav {
+    align-items: center;
+    gap: 10px;
+    /* border: 1px solid red; */
+}
+
+.logout-button {
+    /* margin-top: 3px; */
+    height: 36px;
+    color: #fff !important;
+    font-weight: 700 !important;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7931e !important;
+}
+
+@media (max-width: 576px) {
+    .header-elements {
+        margin-bottom: 15px;
+    }
+
+    .cp-btn {
+        margin-top: 10px;
+    }
+}
+
+.nav-link.active {
+    /* border-bottom: 5px solid;
+    color: green !important; */
+    border-color: tan;
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+/* .ant-layout-sider-zero-width-trigger {
+    z-index: 99999999 !important;
+    top: 10px !important;
+} */
+
+.header-component {
+    justify-content: space-between;
+}
+
+@media (min-width: 576px) {
+    .header-toggle {
+        display: none;
+    }
+
+    .header-component {
+        justify-content: space-between;
+    }
+}

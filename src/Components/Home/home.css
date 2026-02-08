@@ -1,0 +1,50 @@
+* {
+    box-sizing: border-box;
+}
+
+.alert-container {
+    position: absolute;
+    z-index: 2;
+    position: absolute;
+    width: 80%;
+    left: 12%;
+    z-index: 2;
+}
+
+i {
+    cursor: pointer;
+}
+
+
+.main-content-container {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+@media (max-width: 576px) {
+    /* .main-content-container {
+        width: 100% !important;
+    } */
+
+    .content-container,
+    .cashbook-details-list-container {
+        padding-bottom: 50px !important;
+    }
+}
+
+.content-container {
+    /* height: 92vh; */
+    /* padding: 0 30px; */
+    /* width: 100%; */
+    /* padding-top: 50px; */
+    overflow-y: scroll;
+}
+
+/* Home Container */
+
+
+::-webkit-scrollbar {
+    display: none;
+}

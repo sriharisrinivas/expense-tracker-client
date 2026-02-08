@@ -1,0 +1,23 @@
+.filter-icon {
+    top: -5px;
+    right: 0px;
+    position: absolute;
+    color: rgb(112, 145, 230);
+}
+
+.react-datepicker__view-calendar-icon input {
+    width: 100%;
+    color: inherit !important;
+    background-color: inherit !important;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.search-filters-container {
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+}

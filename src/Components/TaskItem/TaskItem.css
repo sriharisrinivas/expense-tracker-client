@@ -1,0 +1,114 @@
+/* Task Item */
+.task-item-container {
+    /* display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    margin: 10px;
+    border-radius: 5px; */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    margin: 10px;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.dynamic-task-item-container p,
+.dynamic-task-item-container small {
+    text-decoration: line-through;
+}
+
+.task-header-and-value-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.task-heading {
+    /* display: none; */
+    color: white;
+    font-weight: 500;
+}
+
+.task-value {
+    color: white;
+}
+
+.task-name-container {
+    /* height: 35px; */
+    /* min-width: 130px;
+    max-width: 130px; */
+}
+
+.task-edit-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none !important;
+}
+
+@media (max-width: 576px) {
+    .task-item-container {
+        /* flex-direction: column; */
+        /* align-items: self-start; */
+    }
+
+    .task-header-and-value-wrapper {
+        display: none;
+        /* flex-direction: row;
+        width: 100%;
+        justify-content: space-between; */
+    }
+
+    .task-heading {
+        display: block;
+        margin-right: 10px;
+    }
+
+    .task-edit-btn {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+
+.task-item-container p {
+    margin: 1rem;
+    color: inherit;
+    font-size: 12px;
+    background-color: inherit !important;
+}
+
+
+.todo-icons-container {
+    width: 40px;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+
+}
+
+.todo-icons-container i {
+    color: inherit !important;
+    background-color: inherit !important;
+}
+
+@media (min-width: 574px) and (max-width: 768px) {
+    .todo-icons-container {
+        top: -3px;
+    }
+}
+
+.form-check-input {
+    border-radius: 10px !important;
+    height: 19px !important;
+    width: 19px !important;
+}
+
+.task-dueDate {
+    font-size: 12px;
+    opacity: 0.8;
+}
