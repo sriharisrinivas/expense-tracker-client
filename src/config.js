@@ -7,7 +7,7 @@ export const CONSTANTS = {
 }
 
 export const API_END_POINTS = {
-    CREATE_USER: '/auth/createUser/',
+    CREATE_USER: '/auth/register/',
     UPDATE_PROFILE: "/auth/updateProfile/",
     LOGIN: '/auth/login/',
     GET_PROFILE: "/auth/profile/",
