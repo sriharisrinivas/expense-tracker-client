@@ -10,26 +10,13 @@ import { getProfileAction } from '../../Redux/Action/UserAction';
 // import { socket } from '../../helpers/socket-connections';
 import FooterComponent from '../Footer/Footer';
 
-export const ChatContext = React.createContext();
+export const ExpenseContext = React.createContext();
 
 function Home() {
 
     const dispatch = useDispatch();
 
     const [expanded, setExpanded] = React.useState(true);
-
-    const chatState = useSelector(state => state.chatsReducer);
-
-    useEffect(() => {
-        // socket.on("online-users", (response) => {
-        //     getConversations(false);
-        // });
-
-        // socket.on('conversation-updated', (data) => {
-        //     getConversations(data.isNewConversation);
-        // });
-
-    }, []);
 
     // Toggling Online/Offline status when tab is not active
     useEffect(() => {
@@ -45,7 +32,7 @@ function Home() {
         const handleVisibilityChange = () => {
             if (document.visibilityState === 'visible') {
                 // socket.emit('add-online-user', sessionStorage.getItem("token"));
-                document.title = 'Chat App';
+                document.title = 'Expense App';
             } else {
                 // socket.emit('remove-online-user', sessionStorage.getItem("token"));
                 document.title = 'Hey, come back!';
@@ -62,7 +49,7 @@ function Home() {
     }, []);
 
     return (
-        <ChatContext.Provider value={{ expanded, setExpanded }}>
+        <ExpenseContext.Provider value={{ expanded, setExpanded }}>
             <Layout>
                 <SideBar />
                 <Layout>
@@ -71,7 +58,7 @@ function Home() {
                     {/* <FooterComponent /> */}
                 </Layout>
             </Layout>
-        </ChatContext.Provider>
+        </ExpenseContext.Provider>
 
     );
 }

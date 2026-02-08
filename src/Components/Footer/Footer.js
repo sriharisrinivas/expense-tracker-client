@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input, Space } from 'antd';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
 import { fetchConversations, fetchFilteredConversations } from '../../Redux/Action/ChatAction';
-import { ChatContext } from '../Home/home';
+import { ExpenseContext } from '../Home/home';
 
 function FooterComponent() {
 
-     const { expanded } = useContext(ChatContext);
+     const { expanded } = useContext(ExpenseContext);
 
      const dispatch = useDispatch();
      const chatState = useSelector(state => state.chatsReducer);

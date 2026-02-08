@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import './SideBar.css';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
 import Expenses from '../Expenses/Expenses';
-import { ChatContext } from '../Home/home';
+import { ExpenseContext } from '../Home/home';
 
 const { Sider } = Layout;
 
 function SideBar() {
 
-    const { expanded } = useContext(ChatContext);
+    const { expanded } = useContext(ExpenseContext);
 
     const dispatch = useDispatch();
 

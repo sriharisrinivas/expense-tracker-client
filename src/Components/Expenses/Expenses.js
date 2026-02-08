@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { ChatContext } from '../Home/home';
+import { ExpenseContext } from '../Home/home';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import CreateChat from '../CreateExpense/CreateExpense';
 
 function Expenses() {
-    const { setExpanded } = useContext(ChatContext);
+    const { setExpanded } = useContext(ExpenseContext);
 
     const dispatch = useDispatch();
 

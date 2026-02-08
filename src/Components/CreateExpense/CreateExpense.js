@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
 import { updateFilteredSearchedChatsAction, updateSelectedChatDetails } from '../../Redux/Action/ChatAction';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
-import { ChatContext } from '../Home/home';
+import { ExpenseContext } from '../Home/home';
 import './CreateExpense.css';
 const { TextArea } = Input;
 
@@ -31,7 +31,7 @@ const items = [
 
 function CreateExpense({ handleCancel }) {
 
-    const { setExpanded } = useContext(ChatContext);
+    const { setExpanded } = useContext(ExpenseContext);
     const [form, setForm] = useState({});
     const [activeTab, setActiveTab] = useState("1");
 

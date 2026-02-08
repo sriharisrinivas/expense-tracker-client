@@ -1,27 +1,20 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import "./header.css";
-import { useSelector } from 'react-redux';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { Layout } from 'antd';
 import Settings from '../Settings/Settings';
-import ReusableModal from '../ReusableModal/ReusableModal';
-import CreateChat from '../CreateExpense/CreateExpense';
-import AvatarComponent from '../AvatarComponent/AvatarComponent';
 import axios from 'axios';
 // import { socket } from '../../helpers/socket-connections';
-import { ChatContext } from '../Home/home';
+import { ExpenseContext } from '../Home/home';
 
 const { Header } = Layout;
 
 function HeaderComponent() {
 
-    const {expanded, setExpanded} = useContext(ChatContext);
+    const {expanded, setExpanded} = useContext(ExpenseContext);
     const [showChangePasswordPopup, setShowChangePasswordPopup] = useState(false);
     const [showGroupProfile, setShowGroupProfile] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const chatState = useSelector(state => state.chatsReducer);
-    const groupState = useSelector(state => state.groupChatReducer);
 
     const onChangePassword = () => {
         setShowChangePasswordPopup(true);
@@ -42,14 +35,6 @@ function HeaderComponent() {
                 showChangePasswordPopup &&
                 <ChangePassword show={showChangePasswordPopup} handleClose={() => { setShowChangePasswordPopup(false); }} />
             }
-            <ReusableModal isModalOpen={isModalOpen} handleCancel={() => setIsModalOpen(false)}
-                title="Search Chats" footer={null} width={500}
-                children={<CreateChat handleCancel={() => setIsModalOpen(false)} />} />
-
-                
-            {/* <ReusableModal isModalOpen={showGroupProfile} handleCancel={() => setShowGroupProfile(false)}
-                title="About Group" footer={null} width={500}
-                children={<GroupProfile handleCancel={() => setShowGroupProfile(false)} />} /> */}
 
             <Header
                 style={{
