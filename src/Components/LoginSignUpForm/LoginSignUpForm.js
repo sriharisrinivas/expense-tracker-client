@@ -70,18 +70,28 @@ function LoginSignUpForm(props) {
         let parsedResponse = await response.json();
         dispatch(stopLoaderAction());
 
-        if (response.status == 200) {
+        if (response.status == 201) {
             setErrorMessage("");
             dispatch(renderAlertMessageAction({
-                message: "Registration Successful. Please Login.",
+                message: "Registration Successful. Redirecting to home page.",
                 type: "success"
             }));
-            setFormType("login");
-            setSignUpFields(initialSignUpFields);
+            navigateToHomePage(parsedResponse.token);
         } else {
             setErrorMessage(parsedResponse.message);
         }
     };
+
+    const navigateToHomePage = (token) => {
+        setErrorMessage("");
+        dispatch(renderAlertMessageAction({
+            message: "Login SuccessFul.",
+            type: "success",
+            show: true
+        }));
+        sessionStorage.setItem("token", token);
+        navigate("/home");
+    }
 
     const loginUser = async () => {
 
@@ -102,15 +112,7 @@ function LoginSignUpForm(props) {
         let parsedResponse = await response.json();
         dispatch(stopLoaderAction());
         if (response.status == 200) {
-            setErrorMessage("");
-            dispatch(renderAlertMessageAction({
-                message: "Login SuccessFul.",
-                type: "success",
-                show: true
-            }));
-            sessionStorage.setItem("token", parsedResponse.jwtToken);
-            navigate("/home");
-            setLoginFields(initialLoginFields);
+            navigateToHomePage(parsedResponse.token);
         } else {
             setErrorMessage(parsedResponse.message);
         }
@@ -193,13 +195,13 @@ function LoginSignUpForm(props) {
 
             <Form.Group className='mt-3'>
                 <Form.Label><span className='field-required'>* </span>Password</Form.Label>
-               
+
                 <InputGroup>
                     <InputGroup.Text id="basic-addon2"><i className='fa-solid fa-lock'></i></InputGroup.Text>
                     {formType == "login" ?
-                    <Form.Control className="todo-field" size="lg" type="password" name={"password"} value={loginFields.password} onChange={handleChange} placeholder='Enter Password...' /> :
-                    <Form.Control className="todo-field" size="lg" type="password" name={"password"} value={signUpFields.password} onChange={handleChange} placeholder='Enter Password...' />
-                }
+                        <Form.Control className="todo-field" size="lg" type="password" name={"password"} value={loginFields.password} onChange={handleChange} placeholder='Enter Password...' /> :
+                        <Form.Control className="todo-field" size="lg" type="password" name={"password"} value={signUpFields.password} onChange={handleChange} placeholder='Enter Password...' />
+                    }
                 </InputGroup>
             </Form.Group>
 
