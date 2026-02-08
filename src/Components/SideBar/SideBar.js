@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import './SideBar.css';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
-import ChatsList from '../ChatsList/ChatsList';
+import Expenses from '../Expenses/Expenses';
 import { ChatContext } from '../Home/home';
 
 const { Sider } = Layout;
@@ -44,7 +44,7 @@ function SideBar() {
                     <Input placeholder="Search Contact"  />
                 </div> */}
             </>
-            <ChatsList />
+            <Expenses />
 {/* 
 
             <GroupList /> */}

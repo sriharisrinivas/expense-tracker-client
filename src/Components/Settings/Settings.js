@@ -2,7 +2,7 @@ import React, { Profiler, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
 import ReusableModal from '../ReusableModal/ReusableModal';
-import CreateChat from '../CreateChat/CreateChat';
+import CreateChat from '../CreateExpense/CreateExpense';
 import Profile from '../Profile/Profile';
 import { useDispatch, useSelector } from 'react-redux';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';

@@ -7,7 +7,7 @@ import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction'
 import { updateFilteredSearchedChatsAction, updateSelectedChatDetails } from '../../Redux/Action/ChatAction';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
 import { ChatContext } from '../Home/home';
-import './CreateChat.css';
+import './CreateExpense.css';
 const { TextArea } = Input;
 
 
@@ -29,7 +29,7 @@ const items = [
     },
 ];
 
-function CreateChat({ handleCancel }) {
+function CreateExpense({ handleCancel }) {
 
     const { setExpanded } = useContext(ChatContext);
     const [form, setForm] = useState({});
@@ -195,4 +195,4 @@ function CreateChat({ handleCancel }) {
     );
 }
 
-export default CreateChat;
+export default CreateExpense;

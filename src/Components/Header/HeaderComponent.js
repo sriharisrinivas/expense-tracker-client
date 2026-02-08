@@ -5,7 +5,7 @@ import ChangePassword from '../ChangePassword/ChangePassword';
 import { Layout } from 'antd';
 import Settings from '../Settings/Settings';
 import ReusableModal from '../ReusableModal/ReusableModal';
-import CreateChat from '../CreateChat/CreateChat';
+import CreateChat from '../CreateExpense/CreateExpense';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
 import axios from 'axios';
 // import { socket } from '../../helpers/socket-connections';
