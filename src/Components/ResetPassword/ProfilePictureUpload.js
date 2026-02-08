@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateProfilePicture } from '../../Redux/Action/UserAction';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
 import uploadFile from '../../helpers/helpers';
-import { socket } from '../../helpers/socket-connections';
+// import { socket } from '../../helpers/socket-connections';
 
 const ProfilePictureUpload = ({ type = 'user' }) => {
 
@@ -19,7 +19,7 @@ const ProfilePictureUpload = ({ type = 'user' }) => {
       dispatch(updateProfilePicture(file));
     } else {
       const uploadPhoto = await uploadFile(file);
-      socket.emit('update-group-chat', { ...groupDetails, groupPic: uploadPhoto.url });
+      // socket.emit('update-group-chat', { ...groupDetails, groupPic: uploadPhoto.url });
     }
   };
 

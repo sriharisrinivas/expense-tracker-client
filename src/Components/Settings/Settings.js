@@ -6,7 +6,7 @@ import CreateChat from '../CreateChat/CreateChat';
 import Profile from '../Profile/Profile';
 import { useDispatch, useSelector } from 'react-redux';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
-import { socket } from '../../helpers/socket-connections';
+// import { socket } from '../../helpers/socket-connections';
 import { useNavigate } from 'react-router-dom';
 
 const Settings = ({ onChangePassword }) => {
@@ -20,7 +20,7 @@ const Settings = ({ onChangePassword }) => {
     const userDetails = useSelector(state => state.userDetailsReducer);
 
     const removeOnlineUser = () => {
-        socket.emit('remove-online-user', sessionStorage.getItem("token"));
+        // socket.emit('remove-online-user', sessionStorage.getItem("token"));
         sessionStorage.removeItem("token");
     };
 
@@ -57,11 +57,7 @@ const Settings = ({ onChangePassword }) => {
                 {
                     key: '2-1',
                     label: <div onClick={() => { setIsProfileModalOpen(true); }}><i className="fa-solid fa-user me-2"></i><span>Profile</span></div>,
-                },
-                {
-                    key: '2-2',
-                    label: <div onClick={() => { setIsModalOpen(true); }}><i className="fa-solid fa-user-plus me-2"></i><span>Create Chat</span></div>,
-                },
+                }
             ],
         }
     ];

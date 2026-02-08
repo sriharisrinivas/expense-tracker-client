@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
-import { Input, Layout } from 'antd';
+import { useContext } from 'react';
+import { Layout } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilteredConversations } from '../../Redux/Action/ChatAction';
 import './SideBar.css';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
 import ChatsList from '../ChatsList/ChatsList';
-import GroupList from '../GroupList/GroupList';
 import { ChatContext } from '../Home/home';
 
 const { Sider } = Layout;
@@ -40,12 +38,14 @@ function SideBar() {
                     <img src="/chat-3d.png" width={50} height={60} />
                 </div>
 
+
+
                 {/* <div className='p-2'>
-                    <Input placeholder="Search Contact" onChange={onFilterChats} />
+                    <Input placeholder="Search Contact"  />
                 </div> */}
             </>
-{/* 
             <ChatsList />
+{/* 
 
             <GroupList /> */}
 

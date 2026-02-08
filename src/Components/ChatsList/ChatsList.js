@@ -21,25 +21,25 @@ function ChatsList() {
     const [openChatList, setOpenChatList] = React.useState(true);
 
     const onSelectChat = (item) => {
-        setExpanded(false);
+        // setExpanded(false);
 
-        dispatch(updateSelectedChatDetails(item));
+        // dispatch(updateSelectedChatDetails(item));
 
-        // This is for finding type of chat, whether individual or group
-        dispatch({
-            type: REDUX_CONSTANTS.UPDATE_TYPE,
-            payload: "Individual"
-        })
+        // // This is for finding type of chat, whether individual or group
+        // dispatch({
+        //     type: REDUX_CONSTANTS.UPDATE_TYPE,
+        //     payload: "Individual"
+        // })
      }
 
     return (
         <div>
             <ReusableModal isModalOpen={isModalOpen} handleCancel={() => setIsModalOpen(false)}
-                title="Search Chats" footer={null} width={500}
+                title="Track Expense" footer={null} width={500}
                 children={<CreateChat handleCancel={() => setIsModalOpen(false)} />} />
 
             <div className='ms-3 me-3 d-flex justify-content-between align-items-center' style={{ color: 'white' }} >
-                <span onClick={() => setOpenChatList(!openChatList)} className='sidebar-header'>Chats</span>
+                <span onClick={() => setOpenChatList(!openChatList)} className='sidebar-header'>Expense Tracking</span>
                 <button onClick={() => setIsModalOpen(true)} className='btn btn-outline-info'>
                     <i className="fas fa-plus"></i>
                 </button>
