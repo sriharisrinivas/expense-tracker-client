@@ -10,7 +10,7 @@ export const API_END_POINTS = {
     CREATE_USER: '/auth/register/',
     UPDATE_PROFILE: "/auth/updateProfile/",
     LOGIN: '/auth/login/',
-    GET_PROFILE: "/auth/profile/",
+    GET_PROFILE: "/user/profile/",
     CHANGE_PASSWORD: "/auth/changePassword/",
     GENERATE_OTP: "/auth/generateOtp/",
     RESET_PASSWORD: '/auth/resetPassword/',
@@ -37,7 +37,11 @@ export const API_END_POINTS = {
     
     CREATE_NOTES: "/notes/createNotes/",
     UPDATE_NOTES: "/notes/updateNotes/",
-    FETCH_NOTES_LIST: "/notes/fetchNotesList/"
+    FETCH_NOTES_LIST: "/notes/fetchNotesList/",
+
+
+    CREATE_EXPENSE: "/expenses/",
+    GET_EXPENSES: "/expenses/"
 }
 
 export const modes = {

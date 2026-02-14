@@ -6,6 +6,7 @@ import HeaderComponent from '../Header/HeaderComponent';
 import "./home.css";
 import SideBar from '../SideBar/SideBar';
 import { getProfileAction } from '../../Redux/Action/UserAction';
+import ContentContainer from '../ContentContainer/ContentContainer';
 // import { socket } from '../../helpers/socket-connections';
 
 export const ExpenseContext = React.createContext();
@@ -15,6 +16,7 @@ function Home() {
     const dispatch = useDispatch();
 
     const [expanded, setExpanded] = React.useState(true);
+    const [selectedMenu, setSelectedMenu] = React.useState("expenses");
 
     // Toggling Online/Offline status when tab is not active
     useEffect(() => {
@@ -46,13 +48,13 @@ function Home() {
     }, []);
 
     return (
-        <ExpenseContext.Provider value={{ expanded, setExpanded }}>
+        <ExpenseContext.Provider value={{ expanded, setExpanded , selectedMenu, setSelectedMenu}}>
             <Layout>
                 <SideBar />
+
                 <Layout>
                     <HeaderComponent />
-
-                    {/* <FooterComponent /> */}
+                    <ContentContainer />
                 </Layout>
             </Layout>
         </ExpenseContext.Provider>

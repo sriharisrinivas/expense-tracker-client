@@ -1,21 +1,32 @@
 import { useContext } from 'react';
-import { Layout } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import './SideBar.css';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
 import Expenses from '../Expenses/Expenses';
 import { ExpenseContext } from '../Home/home';
 
-const { Sider } = Layout;
+import {
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    UploadOutlined,
+    UserOutlined,
+    VideoCameraOutlined,
+} from '@ant-design/icons';
+import { Button, Layout, Menu, theme } from 'antd';
+const { Header, Sider, Content } = Layout;
 
 function SideBar() {
 
-    const { expanded } = useContext(ExpenseContext);
+    const { expanded, setSelectedMenu } = useContext(ExpenseContext);
 
     const dispatch = useDispatch();
 
     const userDetails = useSelector(state => state.userDetailsReducer);
     const chatState = useSelector(state => state.chatsReducer);
+
+    const onChangeMenu = (event) => { 
+        setSelectedMenu(event.key);
+    }
 
     return (
         <Sider
@@ -38,17 +49,30 @@ function SideBar() {
                     <img src="/chat-3d.png" width={50} height={60} />
                 </div>
 
-
-
-                {/* <div className='p-2'>
-                    <Input placeholder="Search Contact"  />
-                </div> */}
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    onClick={onChangeMenu}
+                    defaultSelectedKeys={['1']}
+                    items={[
+                        {
+                            key: 'expenses',
+                            icon: <UserOutlined />,
+                            label: 'Expenses',
+                        },
+                        {
+                            key: 'statistics',
+                            icon: <VideoCameraOutlined />,
+                            label: 'Statistics',
+                        },
+                        {
+                            key: 'calendar',
+                            icon: <UploadOutlined />,
+                            label: 'Calendar',
+                        },
+                    ]}
+                />
             </>
-            <Expenses />
-{/* 
-
-            <GroupList /> */}
-
         </Sider>
     );
 }

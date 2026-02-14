@@ -1,10 +1,8 @@
 import { Footer } from 'antd/es/layout/layout';
-import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 // import { socket } from '../../helpers/socket-connections';
-import { Input, Space } from 'antd';
-import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
-import { fetchConversations, fetchFilteredConversations } from '../../Redux/Action/ChatAction';
+import { Space } from 'antd';
 import { ExpenseContext } from '../Home/home';
 
 function FooterComponent() {
@@ -27,7 +25,7 @@ function FooterComponent() {
                               zIndex: 1,
                          }}
                     >
-
+                         hi
 
                     </Space.Compact>
                }

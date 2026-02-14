@@ -38,10 +38,10 @@ const Settings = ({ onChangePassword }) => {
             type: 'group',
             label: 'Settings',
             children: [
-                {
-                    key: '1-1',
-                    label: <div onClick={onChangePassword}><i className="fa-solid fa-key me-2"></i><span>Change Password</span></div>,
-                },
+                // {
+                //     key: '1-1',
+                //     label: <div onClick={onChangePassword}><i className="fa-solid fa-key me-2"></i><span>Change Password</span></div>,
+                // },
                 {
                     key: '1-2',
                     label: <div onClick={onLogout}><i className="fa-solid fa-power-off me-2"></i><span>Logout</span></div>,

@@ -5,17 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
 import { ExpenseContext } from '../Home/home';
 import './CreateExpense.css';
+import axios from 'axios';
+import { API_END_POINTS } from '../../config';
+import { createExpenseAction } from '../../Redux/Action/ExpenseAction';
 const { TextArea } = Input;
 
 
 const items = [
     {
-        key: '1',
+        key: 'expense',
         label: 'Expense',
         // children: <div>Hi</div>,
     },
     {
-        key: '2',
+        key: 'income',
         label: 'Income',
         // children: 'Content of Tab Pane 2',
     },
@@ -30,13 +33,13 @@ function CreateExpense({ handleCancel }) {
 
     const { setExpanded } = useContext(ExpenseContext);
     const [form, setForm] = useState({});
-    const [activeTab, setActiveTab] = useState("1");
+    const [activeTab, setActiveTab] = useState("expense");
 
     const dispatch = useDispatch();
     const chatState = useSelector(state => state.chatsReducer);
 
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
 
         const validateForm = () => {
             if (!form.amount || !form.formattedDate || !form.category || !form.account) {
@@ -53,29 +56,10 @@ function CreateExpense({ handleCancel }) {
 
         if (validateForm()) {
 
-            console.log("first", activeTab, form)
-            // item = ({ ...item, isNew: true });
-            // setExpanded(false);
+            console.log("first", activeTab, form);
 
-            // let dupCheck = false;
-
-            // let findedConversation = chatState.conversations.find((conv) => conv.receiverDetails._id == item._id);
-            // dupCheck = findedConversation ? true : false;
-
-            // if (dupCheck) {
-            //     dispatch(renderAlertMessageAction({
-            //         message: "Conversation already exists.",
-            //         type: "error",
-            //         show: true
-            //     }));
-            // } else {
-            //     dispatch(updateSelectedChatDetails(item));
-            // }
-
-            // dispatch({
-            //     type: REDUX_CONSTANTS.UPDATE_TYPE,
-            //     payload: "Individual"
-            // })
+            dispatch(createExpenseAction({ ...form, type: activeTab }));
+            setExpanded(false);
 
             handleCancel();
         }
@@ -131,7 +115,6 @@ function CreateExpense({ handleCancel }) {
                         <Col className='mt-3'>
                             <Form.Label><span className='field-required'>* </span>Category</Form.Label><br />
                             <Select
-                                defaultValue="food"
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "category")}
                                 options={[
@@ -144,14 +127,12 @@ function CreateExpense({ handleCancel }) {
                                     { value: 'education', label: 'Education' },
                                     { value: 'other', label: 'Other' },
                                 ]}
-                                value={form.category}
                             />
                         </Col>
 
                         <Col className='mt-3'>
                             <Form.Label><span className='field-required'>* </span>Account</Form.Label><br />
                             <Select
-                                defaultValue="cash"
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "account")}
                                 options={[
@@ -159,7 +140,6 @@ function CreateExpense({ handleCancel }) {
                                     { value: 'bank', label: 'Bank' },
                                     { value: 'card', label: 'Card' }
                                 ]}
-                                value={form.account}
                             />
                         </Col>
                     </Row>

@@ -26,6 +26,7 @@ const UserAlrealyLoggedInRoute = ({ children, ...rest }) => {
 function App() {
   const alertMessaage = useSelector(state => state.AlertMessageReducer);
   const loaderState = useSelector(state => state.loaderReducer);
+  console.log("loaderState", loaderState);
   const darkModeState = useSelector(state => state.darkModeReducer.isDarkMode);
 
   const [messageApi, contextHolder] = message.useMessage();
