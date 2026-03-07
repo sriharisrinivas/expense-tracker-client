@@ -7,42 +7,42 @@ export const CONSTANTS = {
 }
 
 export const API_END_POINTS = {
-    CREATE_USER: '/auth/register/',
-    UPDATE_PROFILE: "/auth/updateProfile/",
-    LOGIN: '/auth/login/',
-    GET_PROFILE: "/user/profile/",
-    CHANGE_PASSWORD: "/auth/changePassword/",
-    GENERATE_OTP: "/auth/generateOtp/",
-    RESET_PASSWORD: '/auth/resetPassword/',
-    VERIFY_OTP: '/auth/verifyOtp/',
+    CREATE_USER: '/auth/register',
+    UPDATE_PROFILE: "/auth/updateProfile",
+    LOGIN: '/auth/login',
+    GET_PROFILE: "/user/profile",
+    CHANGE_PASSWORD: "/auth/changePassword",
+    GENERATE_OTP: "/auth/generateOtp",
+    RESET_PASSWORD: '/auth/resetPassword',
+    VERIFY_OTP: '/auth/verifyOtp',
     
-    CREATE_TODO: "/todos/createTodo/",
-    UPDATE_TODO: "/todos/updateTodo/",
-    FETCH_TODOS: "/todos/fetchTodos/",
+    CREATE_TODO: "/todos/createTodo",
+    UPDATE_TODO: "/todos/updateTodo",
+    FETCH_TODOS: "/todos/fetchTodos",
 
-    CREATE_CASHBOOK: "/cb/createNewCashbook/",
-    GET_CASHBOOK_NAMES: '/cb/getCashbookNames/',
-    CREATE_NEW_ENTRY: "/cb/createNewEntry/",
-    UPDATE_ENTRY: '/cb/updateEntry/',
-    GET_CASHBOOK_ENTRIES: '/cb/getCashbookDetails/',
-    DELETE_ENTRY: "/cb/deleteEntry/",
+    CREATE_CASHBOOK: "/cb/createNewCashbook",
+    GET_CASHBOOK_NAMES: '/cb/getCashbookNames',
+    CREATE_NEW_ENTRY: "/cb/createNewEntry",
+    UPDATE_ENTRY: '/cb/updateEntry',
+    GET_CASHBOOK_ENTRIES: '/cb/getCashbookDetails',
+    DELETE_ENTRY: "/cb/deleteEntry",
 
-    SEND_FEEDBACK: "/user/feedback/",
+    SEND_FEEDBACK: "/user/feedback",
 
-    CREATE_CHAT: "/chat/createChat/",
-    GET_CHATS: "/chat/getChats/",
-    GET_USERS: "/chat/getUsers/",
-    CREATE_MESSAGE: "/chat/createMessage/",
-    GET_MESSAGES: "/chat/getMessages/",
+    CREATE_CHAT: "/chat/createChat",
+    GET_CHATS: "/chat/getChats",
+    GET_USERS: "/chat/getUsers",
+    CREATE_MESSAGE: "/chat/createMessage",
+    GET_MESSAGES: "/chat/getMessages",
     
-    CREATE_NOTES: "/notes/createNotes/",
-    UPDATE_NOTES: "/notes/updateNotes/",
-    FETCH_NOTES_LIST: "/notes/fetchNotesList/",
+    CREATE_NOTES: "/notes/createNotes",
+    UPDATE_NOTES: "/notes/updateNotes",
+    FETCH_NOTES_LIST: "/notes/fetchNotesList",
 
 
-    CREATE_EXPENSE: "/expenses/",
-    GET_EXPENSES: "/expenses/",
-    UPDATE_EXPENSE: "/expenses/",
+    CREATE_EXPENSE: "/expenses",
+    GET_EXPENSES: "/expenses",
+    UPDATE_EXPENSE: "/expenses",
     DELETE_EXPENSE: "/expenses/"
 }
 
