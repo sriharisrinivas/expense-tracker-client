@@ -2,11 +2,15 @@
 import { Layout } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import HeaderComponent from '../Header/HeaderComponent';
 import "./home.css";
 import SideBar from '../SideBar/SideBar';
-import { getProfileAction } from '../../Redux/Action/UserAction';
+import { setUserProfileAction } from '../../Redux/Action/UserAction';
 import ContentContainer from '../ContentContainer/ContentContainer';
+import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
+import { API_END_POINTS } from '../../config';
+import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 // import { socket } from '../../helpers/socket-connections';
 
 export const ExpenseContext = React.createContext();
@@ -15,7 +19,7 @@ function Home() {
 
     const dispatch = useDispatch();
 
-    const [expanded, setExpanded] = React.useState(true);
+    const [expanded, setExpanded] = React.useState(false);
     const [selectedMenu, setSelectedMenu] = React.useState("expenses");
 
     // Toggling Online/Offline status when tab is not active
@@ -23,8 +27,53 @@ function Home() {
         // Adding user to online user list when user logins
         // socket.emit('add-online-user', sessionStorage.getItem("token"));
 
-        dispatch(getProfileAction());
+        // Fetch user profile directly
+        const fetchProfile = async () => {
+            try {
+                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_PROFILE;
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                    }
+                });
+                dispatch(setUserProfileAction(response.data?.user));
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        // Fetch expenses directly
+        const fetchExpenses = async () => {
+            try {
+                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                    }
+                });
+                dispatch(setExpensesAction(response.data));
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        // Execute both calls and wait for completion
+        const loadData = async () => {
+            dispatch(startLoaderAction());
+            try {
+                await Promise.all([fetchProfile(), fetchExpenses()]);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                dispatch(stopLoaderAction());
+            }
+        };
+
+        loadData();
     }, []);
+
 
 
     useEffect(() => {

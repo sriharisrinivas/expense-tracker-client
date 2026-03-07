@@ -4,25 +4,11 @@ import { REDUX_CONSTANTS } from "../reduxConstants";
 import { startLoaderAction, stopLoaderAction } from "./LoaderAction";
 import uploadFile from "../../helpers/helpers";
 
-export const getProfileAction = () => {
-    return (dispatch) => {
-        dispatch(startLoaderAction());
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_PROFILE;
-        axios.get(url, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-            }
-        }).then((response) => {
-            dispatch({
-                type: REDUX_CONSTANTS.UPDATE_USER_DETAILS,
-                payload: response.data
-            });
-        }).catch((error) => {
-            dispatch(stopLoaderAction());
-            console.log(error);
-        });
-        dispatch(stopLoaderAction());
+// Sync action to set user profile
+export const setUserProfileAction = (payload) => {
+    return {
+        type: REDUX_CONSTANTS.UPDATE_USER_DETAILS,
+        payload: payload
     };
 };
 
@@ -31,23 +17,36 @@ export const updateProfilePicture = (payload) => {
 
         dispatch(startLoaderAction());
 
-        // Uploading file in cloudinary
-        const uploadPhoto = await uploadFile(payload);
+        try {
+            // Uploading file in cloudinary
+            const uploadPhoto = await uploadFile(payload);
 
-        // Updating profile picture in Mongo DB
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.UPDATE_PROFILE;
-        axios.put(url,
-            { profilePic: uploadPhoto.url },
-            {
+            // Updating profile picture in Mongo DB
+            let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.UPDATE_PROFILE;
+            await axios.put(url,
+                { profilePic: uploadPhoto.url },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                    }
+                }
+            );
+
+            // Fetch updated profile
+            const profileUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_PROFILE;
+            const response = await axios.get(profileUrl, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${sessionStorage.getItem("token")}`
                 }
-            }).then((response) => {
-                dispatch(getProfileAction());
-            }).catch((error) => {
-                console.log(error);
             });
-        dispatch(stopLoaderAction());
+
+            dispatch(setUserProfileAction(response.data));
+            dispatch(stopLoaderAction());
+        } catch (error) {
+            console.log(error);
+            dispatch(stopLoaderAction());
+        }
     };
 };

@@ -1,5 +1,5 @@
 import { DatePicker, Input, InputNumber, Select, Space, Tabs, Button } from 'antd';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
@@ -7,7 +7,9 @@ import { ExpenseContext } from '../Home/home';
 import './CreateExpense.css';
 import axios from 'axios';
 import { API_END_POINTS } from '../../config';
-import { createExpenseAction } from '../../Redux/Action/ExpenseAction';
+import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
+import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import moment from 'moment';
 const { TextArea } = Input;
 
 
@@ -29,24 +31,71 @@ const items = [
     },
 ];
 
-function CreateExpense({ handleCancel }) {
+function CreateExpense({ handleCancel, editingExpense }) {
 
     const { setExpanded } = useContext(ExpenseContext);
-    const [form, setForm] = useState({});
-    const [activeTab, setActiveTab] = useState("expense");
+    const initialFormState = {
+        amount: null,
+        description: "",
+        category: "",
+        account: "",
+        note: "",
+        date: null
+    };
+
+    const [form, setForm] = useState(
+        editingExpense ? {
+            amount: editingExpense.amount,
+            description: editingExpense.description || "",
+            category: editingExpense.category,
+            account: editingExpense.account,
+            note: editingExpense.note || "",
+            date: moment(editingExpense.date),
+            formattedDate: editingExpense.date
+        } : initialFormState
+    );
+    const [activeTab, setActiveTab] = useState(editingExpense?.type || "expense");
+    const [submitted, setSubmitted] = useState(false);
 
     const dispatch = useDispatch();
-    const chatState = useSelector(state => state.chatsReducer);
+    const loaderState = useSelector(state => state.loaderReducer);
 
+    // Update form when editingExpense changes
+    useEffect(() => {
+        if (editingExpense) {
+            setForm({
+                amount: editingExpense.income || editingExpense.expense,
+                description: editingExpense.description || "",
+                category: editingExpense.category,
+                account: editingExpense.account,
+                note: editingExpense.note || "",
+                date: moment(editingExpense.date),
+                formattedDate: editingExpense.date
+            });
+            setActiveTab(editingExpense.type || "expense");
+        } else {
+            setForm(initialFormState);
+            setActiveTab("expense");
+        }
+    }, [editingExpense]);
+
+    // Clear form when submission is complete (loader stops)
+    useEffect(() => {
+        if (submitted && !loaderState.loading) {
+            setForm(initialFormState);
+            setActiveTab("expense");
+            setSubmitted(false);
+            setExpanded(false);
+            handleCancel();
+        }
+    }, [loaderState.loading, submitted]);
 
     const onSubmit = async () => {
-
         const validateForm = () => {
             if (!form.amount || !form.formattedDate || !form.category || !form.account) {
                 dispatch(renderAlertMessageAction({
                     message: "Please fill all required fields.",
                     type: "error",
-
                     show: true
                 }));
                 return false;
@@ -55,13 +104,50 @@ function CreateExpense({ handleCancel }) {
         }
 
         if (validateForm()) {
-
             console.log("first", activeTab, form);
+            setSubmitted(true);
+            dispatch(startLoaderAction());
+            
+            try {
+                if (editingExpense) {
+                    // Update expense
+                    const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.UPDATE_EXPENSE;
+                    await axios.put(url, { ...form, type: activeTab, expenseId: editingExpense.expenseId }, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                        }
+                    });
+                } else {
+                    // Create expense
+                    const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.CREATE_EXPENSE;
+                    await axios.post(url, { ...form, type: activeTab }, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                        }
+                    });
+                }
+                
+                // Fetch updated expenses after creating/updating
+                const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
+                const response = await axios.get(getUrl, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                    }
+                });
 
-            dispatch(createExpenseAction({ ...form, type: activeTab }));
-            setExpanded(false);
-
-            handleCancel();
+                if (response.data) {
+                    setForm(initialFormState);
+                }
+                
+                dispatch(setExpensesAction(response.data));
+                dispatch(stopLoaderAction());
+            } catch (error) {
+                console.log(error);
+                dispatch(stopLoaderAction());
+            }
         }
     };
 
@@ -92,12 +178,26 @@ function CreateExpense({ handleCancel }) {
             >
                 <div className='w-100'>
 
-                    <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} />
+                    <Tabs activeKey={activeTab} items={items} onChange={onTabChange} />
 
                     <Row>
                         <Col className='mt-3'>
                             <Form.Label><span className='field-required'>* </span>Amount</Form.Label> <br />
                             <InputNumber placeholder="Amount" onChange={(value) => handleDDChange(value, "amount")} value={form.amount} />
+                        </Col>
+
+                        <Col className='mt-3'>
+                            <Form.Label><span className='field-required'>* </span>Account</Form.Label><br />
+                            <Select
+                                style={{ width: 120 }}
+                                onChange={(value) => handleDDChange(value, "account")}
+                                value={form.account || undefined}
+                                options={[
+                                    { value: 'cash', label: 'Cash' },
+                                    { value: 'bank', label: 'Bank' },
+                                    { value: 'card', label: 'Card' }
+                                ]}
+                            />
                         </Col>
 
                         <Col md={9} className='mt-3'>
@@ -109,7 +209,7 @@ function CreateExpense({ handleCancel }) {
                     <Row className='d-flex justify-content-between'>
                         <Col className='mt-3'>
                             <Form.Label><span className='field-required'>* </span>Date</Form.Label><br />
-                            <DatePicker onChange={onDateChange} />
+                            <DatePicker onChange={onDateChange} value={form.date} />
                         </Col>
 
                         <Col className='mt-3'>
@@ -117,6 +217,7 @@ function CreateExpense({ handleCancel }) {
                             <Select
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "category")}
+                                value={form.category || undefined}
                                 options={[
                                     { value: 'food', label: 'Food' },
                                     { value: 'transport', label: 'Transport' },
@@ -126,19 +227,6 @@ function CreateExpense({ handleCancel }) {
                                     { value: 'health', label: 'Health' },
                                     { value: 'education', label: 'Education' },
                                     { value: 'other', label: 'Other' },
-                                ]}
-                            />
-                        </Col>
-
-                        <Col className='mt-3'>
-                            <Form.Label><span className='field-required'>* </span>Account</Form.Label><br />
-                            <Select
-                                style={{ width: 120 }}
-                                onChange={(value) => handleDDChange(value, "account")}
-                                options={[
-                                    { value: 'cash', label: 'Cash' },
-                                    { value: 'bank', label: 'Bank' },
-                                    { value: 'card', label: 'Card' }
                                 ]}
                             />
                         </Col>
@@ -154,7 +242,7 @@ function CreateExpense({ handleCancel }) {
 
                     {/* <Row> */}
                     <div className='d-flex justify-content-end mt-4'>
-                        <Button type="primary" onClick={onSubmit}>Submit</Button>
+                        <Button type="primary" onClick={onSubmit}>{editingExpense ? 'Update' : 'Submit'}</Button>
                     </div>
                     {/* </Row> */}
                 </div>

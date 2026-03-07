@@ -41,7 +41,9 @@ export const API_END_POINTS = {
 
 
     CREATE_EXPENSE: "/expenses/",
-    GET_EXPENSES: "/expenses/"
+    GET_EXPENSES: "/expenses/",
+    UPDATE_EXPENSE: "/expenses/",
+    DELETE_EXPENSE: "/expenses/"
 }
 
 export const modes = {

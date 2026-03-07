@@ -1,132 +1,142 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { Button, Card, Col, Layout, Row, Space, Table, theme, Popconfirm, message } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import _ from 'lodash';
+import React, { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import CreateExpense from '../CreateExpense/CreateExpense';
 import { ExpenseContext } from '../Home/home';
 import ReusableModal from '../ReusableModal/ReusableModal';
-import CreateExpense from '../CreateExpense/CreateExpense';
-import { Button, Layout, Card, theme, Row, Col, Table, Space } from 'antd';
+import { API_END_POINTS } from '../../config';
+import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
+import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 const { Content, Footer, Sider } = Layout;
-
-const columns = [
-  {
-    title: 'Category',
-    dataIndex: 'category',
-    key: 'category',
-    // render: text => <a>{text}</a>,
-  },
-  {
-    title: 'Account',
-    dataIndex: 'account',
-    key: 'account',
-  },
-  {
-    title: 'Income',
-    dataIndex: 'income',
-    key: 'income',
-  },
-  {
-    title: 'Expense',
-    dataIndex: 'expense',
-    key: 'expense',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Edit</a>
-      </Space>
-    ),
-  },
-];
-// const data = [
-//     {
-//         key: '1',
-//         category: 'Food',
-//         account: 'Credit Card',
-//         income: '',
-//         expense: '$20',
-//         date: '19 Feb 2024',
-//     },
-//     {
-//         key: '2',
-//         category: 'Salary',
-//         account: 'Bank Account',
-//         income: '$2000',
-//         expense: '',
-//         date: '19 Feb 2024',
-//     },
-//     {
-//         key: '3',
-//         category: 'Entertainment',
-//         account: 'Cash',
-//         income: '',
-//         expense: '$50',
-//         date: '20 Feb 2024',
-//     },
-// ];
-
-const expensesData = {
-  '19 Feb 2024': [
-    {
-      key: '1',
-      category: 'Food',
-      account: 'Credit Card',
-      income: '',
-      expense: '$20',
-      date: '19 Feb 2024'
-    },
-    {
-      key: '2',
-      category: 'Salary',
-      account: 'Bank Account',
-      income: '$2000',
-      expense: '',
-      date: '19 Feb 2024'
-    }
-  ],
-  '20 Feb 2024': [
-    {
-      key: '3',
-      category: 'Entertainment',
-      account: 'Cash',
-      income: '',
-      expense: '$50',
-      date: '20 Feb 2024'
-    }
-  ]
-}
 
 function Expenses() {
     const { setExpanded } = useContext(ExpenseContext);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [editingExpense, setEditingExpense] = useState(null);
+    const expensesState = useSelector(state => state.expensesReducer);
+    console.log("Expenses State: ", expensesState);
+    const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
+
+    // Calculate total expenses and income
+    const totalExpenses = (expensesState.expenses || []).reduce((sum, expense) => {
+        return sum + (expense.expense || 0);
+    }, 0);
+
+    const totalIncome = (expensesState.expenses || []).reduce((sum, expense) => {
+        return sum + (expense.income || 0);
+    }, 0);
+
+    const handleEdit = (record) => {
+        setEditingExpense(record);
+        setIsModalOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        setEditingExpense(null);
+    };
+
+    const handleDelete = async (expenseId) => {
+        dispatch(startLoaderAction());
+        try {
+            const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.DELETE_EXPENSE;
+            await axios.delete(url, {
+                data: { expenseId },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                }
+            });
+
+            // Fetch updated expenses after deletion
+            const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
+            const response = await axios.get(getUrl, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                }
+            });
+
+            dispatch(setExpensesAction(response.data));
+            dispatch(stopLoaderAction());
+            message.success('Expense deleted successfully');
+        } catch (error) {
+            console.log(error);
+            dispatch(stopLoaderAction());
+            message.error('Failed to delete expense');
+        }
+    };
+
+    const columns = [
+        {
+            title: 'Category',
+            dataIndex: 'category',
+            key: 'category',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+        },
+        {
+            title: 'Account',
+            dataIndex: 'account',
+            key: 'account',
+        },
+        {
+            title: 'Income',
+            dataIndex: 'income',
+            key: 'income',
+        },
+        {
+            title: 'Expense',
+            dataIndex: 'expense',
+            key: 'expense',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <EditOutlined 
+                        onClick={() => handleEdit(record)} 
+                        style={{ cursor: 'pointer', fontSize: '16px', color: '#1890ff' }}
+                        title="Edit"
+                    />
+                    <Popconfirm
+                        title="Delete Expense"
+                        description="Are you sure you want to delete this expense?"
+                        onConfirm={() => handleDelete(record._id || record.expenseId)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <DeleteOutlined 
+                            style={{ cursor: 'pointer', fontSize: '16px', color: '#ff4d4f' }}
+                            title="Delete"
+                        />
+                    </Popconfirm>
+                </Space>
+            ),
+        },
+    ];
 
     const dispatch = useDispatch();
 
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-    // const chatState = useSelector(state => state.chatsReducer);
-    const [openChatList, setOpenChatList] = React.useState(true);
-
-    const onSelectChat = (item) => {
-        // setExpanded(false);
-
-        // dispatch(updateSelectedChatDetails(item));
-
-        // // This is for finding type of chat, whether individual or group
-        // dispatch({
-        //     type: REDUX_CONSTANTS.UPDATE_TYPE,
-        //     payload: "Individual"
-        // })
-    }
-
     return (
         <div className=''>
-            <ReusableModal isModalOpen={isModalOpen} handleCancel={() => setIsModalOpen(false)}
+            <ReusableModal isModalOpen={isModalOpen} handleCancel={handleCancel}
                 title="Track Expense" footer={null} width={500}
-                children={<CreateExpense handleCancel={() => setIsModalOpen(false)} />} />
+                children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} />} />
 
             <div className='m-3 d-flex justify-content-between' style={{ color: 'white' }} >
                 <span className='sidebar-header'>Expense Tracking</span>
-                <button onClick={() => setIsModalOpen(true)} className='btn btn-primary'>
+                <button onClick={() => {
+                    setEditingExpense(null);
+                    setIsModalOpen(true);
+                }} className='btn btn-primary'>
                     <i className="fas fa-plus"></i> Add Expense
                 </button>
 
@@ -136,13 +146,13 @@ function Expenses() {
             <Row>
                 <Col span={12}>
                     <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
-                        <p>10000</p>
+                        <p>{totalExpenses}</p>
                     </Card>
                 </Col>
 
                 <Col span={12}>
                     <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <p>15000</p>
+                        <p>{totalIncome}</p>
                     </Card>
                 </Col>
 
@@ -161,16 +171,19 @@ function Expenses() {
 
             <Row>
                 <Col span={24}>
-                    {
+                    {Object.keys(expensesData).length === 0 ? (
+                        <Card size="small" style={{ margin: '5px', textAlign: 'center' }}>
+                            <p style={{ fontSize: '16px', color: '#999', marginTop: '20px', marginBottom: '20px' }}>
+                                No expenses recorded yet. Click "Add Expense" to get started!
+                            </p>
+                        </Card>
+                    ) : (
                         Object.keys(expensesData).map(date => (
                             <Card size="small" title={date} style={{ margin: '5px' }} key={date}>
                                 <Table columns={columns} dataSource={expensesData[date]} pagination={false} scroll={{ x: 'max-content' }}/>
                             </Card>
                         ))
-                    }
-                    {/* <Card size="small" title="19 Feb 2024" style={{ margin: '5px' }}>
-                        <Table columns={columns} dataSource={data}  scroll={{ x: 'max-content' }}/>
-                    </Card> */}
+                    )}
                 </Col>
             </Row>
 

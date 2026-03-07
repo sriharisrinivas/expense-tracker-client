@@ -4,6 +4,7 @@ import { loaderReducer } from "./LoaderReducer";
 import { SideBarReducer } from "./SideBarReducer";
 import { userDetailsReducer } from "./UserDetailsReducer";
 import { darkModeReducer } from "./DarkModeReducer";
+import { expensesReducer } from "./ExpensesReducer";
 
 export const rootReducer = combineReducers({
     AlertMessageReducer: AlertMessageReducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
     SideBarReducer: SideBarReducer,
     userDetailsReducer: userDetailsReducer,
     darkModeReducer: darkModeReducer,
+    expensesReducer: expensesReducer
 })
