@@ -11,6 +11,7 @@ import { API_END_POINTS } from '../../config';
 import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
+import { getCurrenySymbol } from '../../helpers/helpers';
 const { Content, Footer, Sider } = Layout;
 
 function Expenses() {
@@ -97,11 +98,13 @@ function Expenses() {
             title: 'Income',
             dataIndex: 'income',
             key: 'income',
+            render: (income) => getCurrenySymbol(income)
         },
         {
             title: 'Expense',
             dataIndex: 'expense',
             key: 'expense',
+            render: (expense) => getCurrenySymbol(expense)
         },
         {
             title: 'Action',
@@ -155,13 +158,13 @@ function Expenses() {
             <Row>
                 <Col span={12}>
                     <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
-                        <p>{totalExpenses}</p>
+                        <p>{getCurrenySymbol(totalExpenses)}</p>
                     </Card>
                 </Col>
 
                 <Col span={12}>
                     <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <p>{totalIncome}</p>
+                        <p>{getCurrenySymbol(totalIncome)}</p>
                     </Card>
                 </Col>
 
