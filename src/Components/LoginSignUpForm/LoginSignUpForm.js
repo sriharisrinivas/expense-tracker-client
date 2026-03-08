@@ -210,7 +210,7 @@ function LoginSignUpForm(props) {
             {formType == "login" &&
                 <>
                     <br />
-                    <Form.Text className='link-primary' onClick={() => { setShowChangePasswordPopup(true); }}>Forget Password</Form.Text>
+                   {/* <Form.Text className='link-primary' onClick={() => { setShowChangePasswordPopup(true); }}>Forget Password</Form.Text> */}
 
                 </>
             }

@@ -11,7 +11,7 @@ export const API_END_POINTS = {
     UPDATE_PROFILE: "/auth/updateProfile",
     LOGIN: '/auth/login',
     GET_PROFILE: "/user/profile",
-    CHANGE_PASSWORD: "/auth/changePassword",
+    CHANGE_PASSWORD: "/user/changePassword",
     GENERATE_OTP: "/auth/generateOtp",
     RESET_PASSWORD: '/auth/resetPassword',
     VERIFY_OTP: '/auth/verifyOtp',

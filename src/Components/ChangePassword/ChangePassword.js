@@ -38,7 +38,7 @@ function ChangePassword({ show, handleClose }) {
 
         let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.CHANGE_PASSWORD;
         let options = {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
                 "Authorization": `Bearer ${sessionStorage.getItem("token")}`
