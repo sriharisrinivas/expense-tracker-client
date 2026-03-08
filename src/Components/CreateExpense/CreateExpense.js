@@ -56,9 +56,29 @@ function CreateExpense({ handleCancel, editingExpense }) {
     );
     const [activeTab, setActiveTab] = useState(editingExpense?.type || "expense");
     const [submitted, setSubmitted] = useState(false);
-
+    const [catalogData, setCatalogData] = useState({});
     const dispatch = useDispatch();
     const loaderState = useSelector(state => state.loaderReducer);
+
+    useEffect(() => {
+        const fetchCatalog = async () => {
+            try {
+                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_CATALOG + "?type=CATEGORY,ACCOUNT";
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                    }
+                });
+                // Handle catalog data as needed
+                setCatalogData(response.data.catalog || {});
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchCatalog();
+    }, []);
 
     // Update form when editingExpense changes
     useEffect(() => {
@@ -192,11 +212,7 @@ function CreateExpense({ handleCancel, editingExpense }) {
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "account")}
                                 value={form.account || undefined}
-                                options={[
-                                    { value: 'Cash', label: 'Cash' },
-                                    { value: 'Bank', label: 'Bank' },
-                                    { value: 'Card', label: 'Card' }
-                                ]}
+                                options={catalogData.ACCOUNT || []}
                             />
                         </Col>
 
@@ -218,16 +234,7 @@ function CreateExpense({ handleCancel, editingExpense }) {
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "category")}
                                 value={form.category || undefined}
-                                options={[
-                                    { value: 'Food', label: 'Food' },
-                                    { value: 'Transport', label: 'Transport' },
-                                    { value: 'Culture', label: 'Culture' },
-                                    { value: 'Household', label: 'Household' },
-                                    { value: 'Clothing', label: 'Clothing' },
-                                    { value: 'Health', label: 'Health' },
-                                    { value: 'Education', label: 'Education' },
-                                    { value: 'Other', label: 'Other' },
-                                ]}
+                                options={catalogData.CATEGORY || []}
                             />
                         </Col>
                     </Row>
