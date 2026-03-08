@@ -10,7 +10,9 @@ function ContentContainer(props) {
     const { selectedMenu } = useContext(ExpenseContext);
     return (
         <Content style={{ margin: '10px' }}>
-            <Expenses />
+            {selectedMenu === "expenses" && <Expenses />}
+            {selectedMenu === "statistics" && <div>Statistics</div>}
+            {selectedMenu === "budget" && <div>Budget</div>}
         </Content>
     )
 }

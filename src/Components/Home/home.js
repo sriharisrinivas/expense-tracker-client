@@ -99,7 +99,7 @@ function Home() {
     return (
         <ExpenseContext.Provider value={{ expanded, setExpanded , selectedMenu, setSelectedMenu}}>
             <Layout>
-                {/* <SideBar /> */}
+                <SideBar />
 
                 <Layout>
                     <HeaderComponent />

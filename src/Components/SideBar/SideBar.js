@@ -58,9 +58,9 @@ function SideBar() {
                             label: 'Statistics',
                         },
                         {
-                            key: 'calendar',
+                            key: 'budget',
                             icon: <UploadOutlined />,
-                            label: 'Calendar',
+                            label: 'Budget',
                         },
                     ]}
                 />
