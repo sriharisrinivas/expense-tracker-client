@@ -31,7 +31,7 @@ const items = [
     // },
 ];
 
-function CreateExpense({ handleCancel, editingExpense }) {
+function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
 
     const { setExpanded } = useContext(ExpenseContext);
     const initialFormState = {
@@ -151,7 +151,7 @@ function CreateExpense({ handleCancel, editingExpense }) {
                 
                 // Fetch updated expenses after creating/updating
                 const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
-                const response = await axios.get(getUrl, {
+                const response = await axios.post(getUrl, filter, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${sessionStorage.getItem("token")}`

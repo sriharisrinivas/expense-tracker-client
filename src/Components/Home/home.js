@@ -43,27 +43,11 @@ function Home() {
             }
         };
 
-        // Fetch expenses directly
-        const fetchExpenses = async () => {
-            try {
-                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
-                const response = await axios.get(url, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                    }
-                });
-                dispatch(setExpensesAction(response.data));
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
         // Execute both calls and wait for completion
         const loadData = async () => {
             dispatch(startLoaderAction());
             try {
-                await Promise.all([fetchProfile(), fetchExpenses()]);
+                await Promise.all([fetchProfile()])
             } catch (error) {
                 console.log(error);
             } finally {

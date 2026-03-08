@@ -52,11 +52,11 @@ function SideBar() {
                             icon: <UserOutlined />,
                             label: 'Expenses',
                         },
-                        {
-                            key: 'statistics',
-                            icon: <VideoCameraOutlined />,
-                            label: 'Statistics',
-                        },
+                        // {
+                        //     key: 'statistics',
+                        //     icon: <VideoCameraOutlined />,
+                        //     label: 'Statistics',
+                        // },
                         {
                             key: 'budget',
                             icon: <UploadOutlined />,

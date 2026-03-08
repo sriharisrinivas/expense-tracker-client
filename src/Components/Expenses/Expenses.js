@@ -1,21 +1,21 @@
-import { Button, Card, Col, Layout, Row, Space, Table, theme, Popconfirm, message } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import _ from 'lodash';
-import React, { useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table } from 'antd';
 import axios from 'axios';
-import CreateExpense from '../CreateExpense/CreateExpense';
-import { ExpenseContext } from '../Home/home';
-import ReusableModal from '../ReusableModal/ReusableModal';
+import _ from 'lodash';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { API_END_POINTS } from '../../config';
+import { getCurrenySymbol } from '../../helpers/helpers';
+import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
 import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
-import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
-import { getCurrenySymbol } from '../../helpers/helpers';
+import CreateExpense from '../CreateExpense/CreateExpense';
+import ReusableModal from '../ReusableModal/ReusableModal';
 const { Content, Footer, Sider } = Layout;
 
 function Expenses() {
-    const { setExpanded } = useContext(ExpenseContext);
+    const [form, setForm] = React.useState({ date: null, formattedDate: null });
+
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
     const expensesState = useSelector(state => state.expensesReducer);
@@ -111,8 +111,8 @@ function Expenses() {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <EditOutlined 
-                        onClick={() => handleEdit(record)} 
+                    <EditOutlined
+                        onClick={() => handleEdit(record)}
                         style={{ cursor: 'pointer', fontSize: '16px', color: '#1890ff' }}
                         title="Edit"
                     />
@@ -123,7 +123,7 @@ function Expenses() {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <DeleteOutlined 
+                        <DeleteOutlined
                             style={{ cursor: 'pointer', fontSize: '16px', color: '#ff4d4f' }}
                             title="Delete"
                         />
@@ -132,6 +132,32 @@ function Expenses() {
             ),
         },
     ];
+
+    const onDateChange = (date, formattedDate) => {
+        console.log(date, formattedDate);
+        setForm(prev => ({ ...prev, formattedDate: formattedDate, date }));
+    };
+
+    React.useEffect(() => {
+
+        // Fetch expenses directly
+        const fetchExpenses = async () => {
+            try {
+                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
+                const response = await axios.post(url, { filterByMonth: form.date }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                    }
+                });
+                dispatch(setExpensesAction(response.data));
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchExpenses();
+    }, [form.date]);
 
     const dispatch = useDispatch();
 
@@ -153,6 +179,8 @@ function Expenses() {
                 </button>
 
             </div>
+
+            <DatePicker onChange={onDateChange} picker="month" value={form.date} />
 
             {/* LeaderBoard */}
             <Row>
@@ -192,14 +220,14 @@ function Expenses() {
                     ) : (
                         Object.keys(expensesData).map(date => (
                             <Card size="small" title={date} style={{ margin: '5px' }} key={date}>
-                                <Table columns={columns} dataSource={expensesData[date]} pagination={false} scroll={{ x: 'max-content' }}/>
+                                <Table columns={columns} dataSource={expensesData[date]} pagination={false} scroll={{ x: 'max-content' }} />
                             </Card>
                         ))
                     )}
                 </Col>
             </Row>
 
-            
+
             {/* <Collapse in={openChatList}>
             </Collapse> */}
         </div>

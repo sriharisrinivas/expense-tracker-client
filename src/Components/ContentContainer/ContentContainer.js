@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import Expenses from '../Expenses/Expenses';
 import { ExpenseContext } from '../Home/home';
 import { Button, Layout, Menu, theme } from 'antd';
+import Statistics from '../Statistics/Statistics';
 const { Header, Content, Footer, Sider } = Layout;
 
 function ContentContainer(props) {
@@ -11,8 +12,8 @@ function ContentContainer(props) {
     return (
         <Content style={{ margin: '10px' }}>
             {selectedMenu === "expenses" && <Expenses />}
-            {selectedMenu === "statistics" && <div>Statistics</div>}
-            {selectedMenu === "budget" && <div>Budget</div>}
+            {selectedMenu === "statistics" && <Statistics />}
+            {/* {selectedMenu === "budget" && <div>Budget</div>} */}
         </Content>
     )
 }

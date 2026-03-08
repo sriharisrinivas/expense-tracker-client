@@ -26,7 +26,7 @@ const ProfilePictureUpload = ({ type = 'user' }) => {
     <div className='d-flex flex-column align-items-center mb-2'>
       <AvatarComponent data={type == 'user' ? userDetails : {}} size={100} />
 
-      {/* <label for="profile_pic" className="custom-file-upload mt-2">
+      <label for="profile_pic" className="custom-file-upload mt-2">
         Upload
       </label>
 
@@ -36,7 +36,7 @@ const ProfilePictureUpload = ({ type = 'user' }) => {
         className='hidden'
         onChange={handleUploadPhoto}
         ref={uploadPhotoRef}
-      /> */}
+      />
     </div>
   );
 };
