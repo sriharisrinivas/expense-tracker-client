@@ -10,6 +10,7 @@ import ReusableModal from '../ReusableModal/ReusableModal';
 import { API_END_POINTS } from '../../config';
 import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
 const { Content, Footer, Sider } = Layout;
 
 function Expenses() {
@@ -60,13 +61,19 @@ function Expenses() {
                 }
             });
 
+            dispatch(renderAlertMessageAction({
+                message: "Expense deleted successfully.",
+                type: "success"
+            }));
             dispatch(setExpensesAction(response.data));
             dispatch(stopLoaderAction());
-            message.success('Expense deleted successfully');
         } catch (error) {
             console.log(error);
             dispatch(stopLoaderAction());
-            message.error('Failed to delete expense');
+            dispatch(renderAlertMessageAction({
+                message: "Failed to delete expense.",
+                type: "error"
+            }));
         }
     };
 
