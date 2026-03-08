@@ -193,9 +193,9 @@ function CreateExpense({ handleCancel, editingExpense }) {
                                 onChange={(value) => handleDDChange(value, "account")}
                                 value={form.account || undefined}
                                 options={[
-                                    { value: 'cash', label: 'Cash' },
-                                    { value: 'bank', label: 'Bank' },
-                                    { value: 'card', label: 'Card' }
+                                    { value: 'Cash', label: 'Cash' },
+                                    { value: 'Bank', label: 'Bank' },
+                                    { value: 'Card', label: 'Card' }
                                 ]}
                             />
                         </Col>
@@ -219,14 +219,14 @@ function CreateExpense({ handleCancel, editingExpense }) {
                                 onChange={(value) => handleDDChange(value, "category")}
                                 value={form.category || undefined}
                                 options={[
-                                    { value: 'food', label: 'Food' },
-                                    { value: 'transport', label: 'Transport' },
-                                    { value: 'culture', label: 'Culture' },
-                                    { value: 'household', label: 'Household' },
-                                    { value: 'clothing', label: 'Clothing' },
-                                    { value: 'health', label: 'Health' },
-                                    { value: 'education', label: 'Education' },
-                                    { value: 'other', label: 'Other' },
+                                    { value: 'Food', label: 'Food' },
+                                    { value: 'Transport', label: 'Transport' },
+                                    { value: 'Culture', label: 'Culture' },
+                                    { value: 'Household', label: 'Household' },
+                                    { value: 'Clothing', label: 'Clothing' },
+                                    { value: 'Health', label: 'Health' },
+                                    { value: 'Education', label: 'Education' },
+                                    { value: 'Other', label: 'Other' },
                                 ]}
                             />
                         </Col>
