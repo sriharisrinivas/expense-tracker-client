@@ -134,9 +134,11 @@ function Expenses() {
 
     return (
         <div className=''>
-            <ReusableModal isModalOpen={isModalOpen} handleCancel={handleCancel}
-                title="Track Expense" footer={null} width={500}
-                children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} />} />
+            {isModalOpen && (
+                <ReusableModal isModalOpen={isModalOpen} handleCancel={handleCancel}
+                    title="Track Expense" footer={null} width={500}
+                    children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} />} />
+            )}
 
             <div className='m-3 d-flex justify-content-between' style={{ color: 'white' }} >
                 <span className='sidebar-header'>Expense Tracking</span>

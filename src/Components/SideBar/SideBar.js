@@ -19,10 +19,7 @@ function SideBar() {
 
     const { expanded, setSelectedMenu } = useContext(ExpenseContext);
 
-    const dispatch = useDispatch();
-
     const userDetails = useSelector(state => state.userDetailsReducer);
-    const chatState = useSelector(state => state.chatsReducer);
 
     const onChangeMenu = (event) => { 
         setSelectedMenu(event.key);
@@ -30,16 +27,11 @@ function SideBar() {
 
     return (
         <Sider
+            collapsible
             defaultCollapsed={!expanded}
             collapsed={!expanded}
             trigger={null}
             collapsedWidth="0"
-            onBreakpoint={(broken) => {
-                console.log(broken);
-            }}
-            onCollapse={(collapsed, type) => {
-            }}
-            width={290}
         >
             {/* Chat Header */}
             <>

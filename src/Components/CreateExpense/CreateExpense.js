@@ -24,11 +24,11 @@ const items = [
         label: 'Income',
         // children: 'Content of Tab Pane 2',
     },
-    {
-        key: '3',
-        label: 'Tab 3',
-        children: 'Content of Tab Pane 3',
-    },
+    // {
+    //     key: '3',
+    //     label: 'Tab 3',
+    //     children: 'Content of Tab Pane 3',
+    // },
 ];
 
 function CreateExpense({ handleCancel, editingExpense }) {
@@ -202,7 +202,7 @@ function CreateExpense({ handleCancel, editingExpense }) {
 
                     <Row>
                         <Col className='mt-3'>
-                            <Form.Label><span className='field-required'>* </span>Amount</Form.Label> <br />
+                            <Form.Label><span className='field-required'>* </span>{activeTab === 'income' ? 'Income' : 'Expense'}</Form.Label> <br />
                             <InputNumber placeholder="Amount" onChange={(value) => handleDDChange(value, "amount")} value={form.amount} />
                         </Col>
 
