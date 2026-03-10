@@ -10,6 +10,7 @@ import { API_END_POINTS } from '../../config';
 import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 import moment from 'moment';
+import dayjs from 'dayjs';
 const { TextArea } = Input;
 
 
@@ -89,7 +90,7 @@ function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
                 category: editingExpense.category,
                 account: editingExpense.account,
                 note: editingExpense.note || "",
-                date: moment(editingExpense.date),
+                date: dayjs(editingExpense.date),
                 formattedDate: editingExpense.date
             });
             setActiveTab(editingExpense.type || "expense");
