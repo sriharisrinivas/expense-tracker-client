@@ -5,8 +5,8 @@ import { Layout } from 'antd';
 import Settings from '../Settings/Settings';
 import axios from 'axios';
 // import { socket } from '../../helpers/socket-connections';
-import { ExpenseContext } from '../Home/home';
-
+import { ExpenseContext } from '../Home/home'
+import VoiceInput from '../../VoiceInput/VoiceInput';
 const { Header } = Layout;
 
 function HeaderComponent() {
@@ -53,6 +53,7 @@ function HeaderComponent() {
             >
                 <i onClick={() => setExpanded(!expanded)} className="fa-solid fa-bars me-2 header-toggle" style={{ color: '#fff', fontSize: "20px" }}></i>
 
+                <VoiceInput />
                
                 {/* <button className='btn btn-outline-info d-flex align-items-center me-4' onClick={onClickClearDB}><i className="fa-solid fa-plus me-2"></i>Clear DB</button> */}
                 <Settings onChangePassword={onChangePassword} />

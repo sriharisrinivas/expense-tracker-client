@@ -29,11 +29,11 @@ function NewSideBar({ ...props }) {
     return (
         <>
             <Offcanvas show={expanded} onHide={handleClose} {...props}>
-                <Offcanvas.Header closeButton>
-                    <div className='d-flex justify-content-around align-items-center' style={{ width: "90vw" }}>
+                <Offcanvas.Header>
+                    <div className='d-flex justify-content-around align-items-center' style={{ width: "100vw" }}>
                         <AvatarComponent data={userDetails} size={40} />
                         <span className='me-2' style={{ color: 'white', fontWeight: 'bold' }}>{userDetails.firstName} {userDetails.lastName}</span>
-                        <img src="/chat-3d.png" width={50} height={60} />
+                        <img style={{ cursor: "pointer" }} src="/cross-button.png" onClick={handleClose} width={20} height={20} />
                     </div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
