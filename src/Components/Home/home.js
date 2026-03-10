@@ -10,6 +10,7 @@ import { setUserProfileAction } from '../../Redux/Action/UserAction';
 import ContentContainer from '../ContentContainer/ContentContainer';
 import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
 import { API_END_POINTS } from '../../config';
+import NewSideBar from '../Offcanvas/offcanvas';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 // import { socket } from '../../helpers/socket-connections';
 
@@ -83,7 +84,8 @@ function Home() {
     return (
         <ExpenseContext.Provider value={{ expanded, setExpanded , selectedMenu, setSelectedMenu}}>
             <Layout>
-                <SideBar />
+                {/* <SideBar /> */}
+                <NewSideBar />
 
                 <Layout>
                     <HeaderComponent />

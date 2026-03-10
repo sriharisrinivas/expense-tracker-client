@@ -54,9 +54,9 @@
 }
 
 @media (min-width: 576px) {
-    .header-toggle {
+    /* .header-toggle {
         display: none;
-    }
+    } */
 
     .header-component {
         justify-content: space-between;

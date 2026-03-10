@@ -11,7 +11,7 @@ import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 import CreateExpense from '../CreateExpense/CreateExpense';
 import ReusableModal from '../ReusableModal/ReusableModal';
-const { Content, Footer, Sider } = Layout;
+import './Expenses.css';
 
 function Expenses() {
     const [form, setForm] = React.useState({ date: null, formattedDate: null });
@@ -179,8 +179,14 @@ function Expenses() {
                 </button>
 
             </div>
+            <hr />
 
-            <DatePicker onChange={onDateChange} picker="month" value={form.date} />
+
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+                <span>Filter By: </span>
+                <DatePicker onChange={onDateChange} picker="month" value={form.date} />
+            </div>
+            <hr />
 
             {/* LeaderBoard */}
             <Row>
@@ -209,7 +215,7 @@ function Expenses() {
                 </Col> */}
             </Row>
 
-            <Row>
+            <Row className='expenses-container'>
                 <Col span={24}>
                     {Object.keys(expensesData).length === 0 ? (
                         <Card size="small" style={{ margin: '5px', textAlign: 'center' }}>

@@ -71,3 +71,11 @@
   gap: 15px;
   flex-direction: column;
 }
+
+.offcanvas {
+  background-color: #001529 !important;
+
+  .offcanvas-header {
+    color: #cccccc !important;
+  }
+}
