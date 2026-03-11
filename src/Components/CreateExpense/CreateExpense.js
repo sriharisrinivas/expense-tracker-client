@@ -30,7 +30,7 @@ const items = [
     // },
 ];
 
-function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
+function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {} }) {
 
     const { setExpanded } = useContext(ExpenseContext);
     const initialFormState = {
@@ -51,6 +51,14 @@ function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
             note: editingExpense.note || "",
             date: moment(editingExpense.date),
             formattedDate: editingExpense.date
+        } : prefilledData ? {
+            amount: prefilledData.amount || prefilledData.expense || null,
+            description: prefilledData.description || "",
+            category: prefilledData.category || "",
+            account: prefilledData.account || "",
+            note: prefilledData.note || "",
+            date: prefilledData.date ? dayjs(prefilledData.date) : null,
+            formattedDate: prefilledData.date || null
         } : initialFormState
     );
     const [activeTab, setActiveTab] = useState(editingExpense?.type || "expense");
@@ -69,7 +77,7 @@ function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
         setCatalogData(catalogState);
     }, [catalogState]);
 
-    // Update form when editingExpense changes
+    // Update form when editingExpense or prefilledData changes
     useEffect(() => {
         if (editingExpense) {
             setForm({
@@ -82,11 +90,22 @@ function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
                 formattedDate: editingExpense.date
             });
             setActiveTab(editingExpense.type || "expense");
+        } else if (prefilledData) {
+            setForm({
+                amount: prefilledData.amount || prefilledData.expense || null,
+                description: prefilledData.description || "",
+                category: prefilledData.category || "",
+                account: prefilledData.account || "",
+                note: prefilledData.note || "",
+                date: prefilledData.date ? dayjs(prefilledData.date) : null,
+                formattedDate: prefilledData.date || null
+            });
+            setActiveTab(prefilledData.type || "expense");
         } else {
             setForm(initialFormState);
             setActiveTab("expense");
         }
-    }, [editingExpense]);
+    }, [editingExpense, prefilledData]);
 
     // Clear form when submission is complete (loader stops)
     useEffect(() => {

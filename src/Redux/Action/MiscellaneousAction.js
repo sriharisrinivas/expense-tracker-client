@@ -1,7 +1,8 @@
 import axios from "axios";
-import { API_END_POINTS } from "../../config";
+import { API_END_POINTS, CONSTANTS } from "../../config";
 import { startLoaderAction, stopLoaderAction } from "./LoaderAction";
 import { renderAlertMessageAction, removeRenderAlertMsgAction } from "./AlertMessageAction";
+import { clearVoiceInputTextAction, setParsedExpenseAction, toggleVoiceInputAction } from "./VoiceInputAction";
 
 // Helper function to auto-dismiss alerts after 3 seconds
 const dispatchAlertWithAutoClose = (dispatch, message, type) => {
@@ -74,6 +75,46 @@ export const clearDatabaseThunk = () => {
         } catch (error) {
             console.log(error);
             dispatchAlertWithAutoClose(dispatch, "Failed to clear database", "error");
+            return { success: false, error };
+        }
+    };
+};
+
+// Thunk for parsing expense from voice input text
+export const parseExpenseFromTextThunk = (text) => {
+    return async (dispatch) => {
+        dispatch(startLoaderAction());
+        
+        try {
+            const url = CONSTANTS.SERVICE_URL + API_END_POINTS.PARSE_EXPENSE;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ text })
+            });
+            
+            dispatch(stopLoaderAction());
+            
+            if (response.ok) {
+                const parsedData = await response.json();
+                dispatch(setParsedExpenseAction(parsedData));
+                dispatch(toggleVoiceInputAction(false)); // Close voice input modal
+                dispatch(clearVoiceInputTextAction()); // Clear voice input text
+                dispatchAlertWithAutoClose(dispatch, "Expense parsed successfully", "success");
+                return { success: true, data: parsedData };
+            } else {
+                const errorData = await response.json();
+                dispatchAlertWithAutoClose(dispatch, errorData.message || "Failed to parse expense", "error");
+                return { success: false };
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(stopLoaderAction());
+            dispatchAlertWithAutoClose(dispatch, "Error parsing expense", "error");
             return { success: false, error };
         }
     };

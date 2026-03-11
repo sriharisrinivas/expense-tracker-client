@@ -45,7 +45,8 @@ export const API_END_POINTS = {
     UPDATE_EXPENSE: "/expenses",
     DELETE_EXPENSE: "/expenses",
 
-    GET_CATALOG: "/catalog"
+    GET_CATALOG: "/catalog",
+    PARSE_EXPENSE: "/ai/parse-expense"
 }
 
 export const modes = {

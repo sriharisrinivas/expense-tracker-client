@@ -16,7 +16,9 @@ function Expenses() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
     const expensesState = useSelector(state => state.expensesReducer);
-    const dispatch = useDispatch(); const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
+    const parsedExpense = useSelector(state => state.voiceInputReducer.parsedExpense);
+    const dispatch = useDispatch(); 
+    const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
 
     // Calculate total expenses and income
     const totalExpenses = (expensesState.expenses || []).reduce((sum, expense) => {
@@ -26,6 +28,14 @@ function Expenses() {
     const totalIncome = (expensesState.expenses || []).reduce((sum, expense) => {
         return sum + (expense.income || 0);
     }, 0);
+
+    // Watch for parsed expense and open modal with filled details
+    React.useEffect(() => {
+        if (parsedExpense) {
+            setEditingExpense(null); // Keep it in create mode, not edit mode
+            setIsModalOpen(true);
+        }
+    }, [parsedExpense]);
 
     const handleEdit = (record) => {
         setEditingExpense(record);
@@ -110,7 +120,7 @@ function Expenses() {
             {isModalOpen && (
                 <ReusableModal isModalOpen={isModalOpen} handleCancel={handleCancel}
                     title="Track Expense" footer={null} width={500}
-                    children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} />} />
+                    children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} prefilledData={parsedExpense} />} />
             )}
 
             <div className='m-3 d-flex justify-content-between' style={{ color: 'white' }} >

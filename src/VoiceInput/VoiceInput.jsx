@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
 import { FaMicrophone, FaStopCircle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { setVoiceInputTextAction, clearVoiceInputTextAction } from "../Redux/Action/VoiceInputAction";
 
 export default function VoiceInput() {
-    const [text, setText] = useState("");
+    const dispatch = useDispatch();
+    const text = useSelector(state => state.voiceInputReducer.text);
 
     const { transcript, listening, resetTranscript } = useSpeechRecognition();
-    const [isListening, setIsListening] = useState(true);
+    const [isListening, setIsListening] = React.useState(true);
 
     const startListening = () => {
         resetTranscript();
@@ -20,16 +23,16 @@ export default function VoiceInput() {
 
     const stopListening = () => {
         SpeechRecognition.stopListening();
-        setText(transcript);
+        dispatch(setVoiceInputTextAction(transcript));
     };
 
     return (
         <div style={container}>
             <input
                 style={input}
-                value={text || transcript}
+                value={text}
                 placeholder="Say something like 'Lunch 250'"
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => dispatch(setVoiceInputTextAction(e.target.value))}
             />
 
             <button
@@ -60,7 +63,7 @@ const container = {
     display: "flex",
     alignItems: "center",
     gap: "10px",
-    width: "400px",
+    width: "150px",
 };
 
 const input = {
