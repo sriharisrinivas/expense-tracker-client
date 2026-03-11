@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../Header/HeaderComponent';
-import SideBar from '../SideBar/SideBar';
-import "./Layout.css";
-import { Container } from 'react-bootstrap';
+import "../SideBar/SideBar.css";
 import Feedback from '../Feedback/Feedback';
 
 function Layout({ children }) {

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import HeaderComponent from '../Header/HeaderComponent';
 import "./home.css";
-import SideBar from '../SideBar/SideBar';
 import { fetchUserProfileThunk } from '../../Redux/Action/UserAction';
 import ContentContainer from '../ContentContainer/ContentContainer';
 import { fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';

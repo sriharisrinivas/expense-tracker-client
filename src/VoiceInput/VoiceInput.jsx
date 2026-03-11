@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
-import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophone, FaStopCircle } from "react-icons/fa";
 
 export default function VoiceInput() {
     const [text, setText] = useState("");
 
     const { transcript, listening, resetTranscript } = useSpeechRecognition();
+    const [isListening, setIsListening] = useState(true);
 
     const startListening = () => {
         resetTranscript();
@@ -36,10 +37,20 @@ export default function VoiceInput() {
                     ...micButton,
                     backgroundColor: listening ? "#ef4444" : "#6366f1",
                 }}
-                onMouseDown={startListening}
-                onMouseUp={stopListening}
+                onClick={() => {
+                    if (isListening) {
+                        startListening();
+                    } else {
+                        stopListening();
+                    }
+                    setIsListening(!isListening);
+                }}
             >
-                <FaMicrophone size={18} color="white" />
+                {
+                    isListening ?
+                        <FaMicrophone size={18} color="white" /> :
+                        <FaStopCircle size={18} color="white" />
+                }
             </button>
         </div>
     );
