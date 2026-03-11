@@ -1,14 +1,11 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table } from 'antd';
-import axios from 'axios';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { API_END_POINTS } from '../../config';
 import { getCurrenySymbol } from '../../helpers/helpers';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
-import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import { deleteExpenseThunk, fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';
 import CreateExpense from '../CreateExpense/CreateExpense';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import './Expenses.css';
@@ -19,8 +16,7 @@ function Expenses() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
     const expensesState = useSelector(state => state.expensesReducer);
-    console.log("Expenses State: ", expensesState);
-    const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
+    const dispatch = useDispatch(); const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
 
     // Calculate total expenses and income
     const totalExpenses = (expensesState.expenses || []).reduce((sum, expense) => {
@@ -42,40 +38,7 @@ function Expenses() {
     };
 
     const handleDelete = async (expenseId) => {
-        dispatch(startLoaderAction());
-        try {
-            const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.DELETE_EXPENSE;
-            await axios.delete(url, {
-                data: { expenseId },
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                }
-            });
-
-            // Fetch updated expenses after deletion
-            const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
-            const response = await axios.get(getUrl, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                }
-            });
-
-            dispatch(renderAlertMessageAction({
-                message: "Expense deleted successfully.",
-                type: "success"
-            }));
-            dispatch(setExpensesAction(response.data));
-            dispatch(stopLoaderAction());
-        } catch (error) {
-            console.log(error);
-            dispatch(stopLoaderAction());
-            dispatch(renderAlertMessageAction({
-                message: "Failed to delete expense.",
-                type: "error"
-            }));
-        }
+        dispatch(deleteExpenseThunk(expenseId));
     };
 
     const columns = [
@@ -139,27 +102,8 @@ function Expenses() {
     };
 
     React.useEffect(() => {
-
-        // Fetch expenses directly
-        const fetchExpenses = async () => {
-            try {
-                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
-                const response = await axios.post(url, { filterByMonth: form.date }, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                    }
-                });
-                dispatch(setExpensesAction(response.data));
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchExpenses();
-    }, [form.date]);
-
-    const dispatch = useDispatch();
+        dispatch(fetchExpensesThunk(form.date));
+    }, [form.date, dispatch]);
 
     return (
         <div className=''>

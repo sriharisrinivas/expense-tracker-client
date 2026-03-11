@@ -3,7 +3,8 @@ import "./header.css";
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { Layout } from 'antd';
 import Settings from '../Settings/Settings';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { clearDatabaseThunk } from '../../Redux/Action/MiscellaneousAction';
 // import { socket } from '../../helpers/socket-connections';
 import { ExpenseContext } from '../Home/home'
 import VoiceInput from '../../VoiceInput/VoiceInput';
@@ -11,6 +12,7 @@ const { Header } = Layout;
 
 function HeaderComponent() {
 
+    const dispatch = useDispatch();
     const {expanded, setExpanded} = useContext(ExpenseContext);
     const [showChangePasswordPopup, setShowChangePasswordPopup] = useState(false);
     const [showGroupProfile, setShowGroupProfile] = useState(false);
@@ -26,7 +28,7 @@ function HeaderComponent() {
     };
 
     const onClickClearDB = async () => {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/clearDB");
+        dispatch(clearDatabaseThunk());
     };
 
     return (

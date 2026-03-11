@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { API_END_POINTS } from '../../config';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import { generateOtpThunk, verifyOtpThunk, resetPasswordThunk } from '../../Redux/Action/AuthAction';
 import { useDispatch } from 'react-redux';
 
 function ResetPassword({ show, handleClose }) {
@@ -32,25 +31,7 @@ function ResetPassword({ show, handleClose }) {
             return;
         }
 
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GENERATE_OTP;
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-            },
-            body: JSON.stringify({ email: fields.email })
-        };
-
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        dispatch(stopLoaderAction());
-        if (response.status == 200) {
-            setErrorMessage("Email Sent Successfully. Please Check Your Email.");
-        } else {
-            response = await response.json();
-            setErrorMessage(response.message);
-        }
+        dispatch(generateOtpThunk(fields.email));
     };
 
 
@@ -65,27 +46,16 @@ function ResetPassword({ show, handleClose }) {
             return;
         }
 
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.VERIFY_OTP;
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-            },
-            body: JSON.stringify({ email: fields.email, otp: fields.otp })
-        };
+        const result = await new Promise((resolve) => {
+            dispatch((innerDispatch) => {
+                return verifyOtpThunk({ email: fields.email, otp: fields.otp })(innerDispatch).then(resolve);
+            });
+        });
 
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        dispatch(stopLoaderAction());
-        if (response.status == 200) {
-            setErrorMessage("OTP Verified. Redirecting to New Password Page.");
+        if (result.success) {
             setTimeout(() => {
                 setOtpVerified(true);
-            }, 3000)
-        } else {
-            response = await response.json();
-            setErrorMessage(response.message);
+            }, 1000);
         }
     };
 
@@ -97,29 +67,17 @@ function ResetPassword({ show, handleClose }) {
             return;
         }
 
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.RESET_PASSWORD;
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-            },
-            body: JSON.stringify(fields)
-        };
+        const result = await new Promise((resolve) => {
+            dispatch((innerDispatch) => {
+                return resetPasswordThunk(fields)(innerDispatch).then(resolve);
+            });
+        });
 
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        dispatch(stopLoaderAction());
-        if (response.status == 200) {
-            setErrorMessage("Password Updated Successfully. Redirecting to login page in few seconds.");
+        if (result.success) {
             setTimeout(() => {
                 handleClose();
-            }, 3000)
-        } else {
-            response = await response.json();
+            }, 2000);
         }
-
-        
     }
 
     return (

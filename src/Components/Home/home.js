@@ -1,17 +1,13 @@
-
 import { Layout } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import HeaderComponent from '../Header/HeaderComponent';
 import "./home.css";
 import SideBar from '../SideBar/SideBar';
-import { setUserProfileAction } from '../../Redux/Action/UserAction';
+import { fetchUserProfileThunk } from '../../Redux/Action/UserAction';
 import ContentContainer from '../ContentContainer/ContentContainer';
-import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
-import { API_END_POINTS } from '../../config';
+import { fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';
 import NewSideBar from '../Offcanvas/offcanvas';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 // import { socket } from '../../helpers/socket-connections';
 
 export const ExpenseContext = React.createContext();
@@ -28,36 +24,9 @@ function Home() {
         // Adding user to online user list when user logins
         // socket.emit('add-online-user', sessionStorage.getItem("token"));
 
-        // Fetch user profile directly
-        const fetchProfile = async () => {
-            try {
-                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_PROFILE;
-                const response = await axios.get(url, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                    }
-                });
-                dispatch(setUserProfileAction(response.data?.user));
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        // Execute both calls and wait for completion
-        const loadData = async () => {
-            dispatch(startLoaderAction());
-            try {
-                await Promise.all([fetchProfile()])
-            } catch (error) {
-                console.log(error);
-            } finally {
-                dispatch(stopLoaderAction());
-            }
-        };
-
-        loadData();
-    }, []);
+        // Fetch user profile using thunk
+        dispatch(fetchUserProfileThunk());
+    }, [dispatch]);
 
 
 

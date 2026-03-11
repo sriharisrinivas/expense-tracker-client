@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import { sendFeedbackThunk } from '../../Redux/Action/MiscellaneousAction';
 import { useDispatch } from 'react-redux';
-import { API_END_POINTS } from '../../config';
 
 function Feedback({ show, handleClose }) {
 
@@ -22,25 +21,15 @@ function Feedback({ show, handleClose }) {
             return;
         }
 
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.SEND_FEEDBACK;
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-            },
-            body: JSON.stringify({ email: sessionStorage.getItem("email"), comment: fields.comment })
-        };
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        dispatch(stopLoaderAction());
-        if (response.status == 200) {
-            response = await response.json();
-            setErrorMessage("Thank you for your feedback. You will be contacted shortly.");
-            setTimeout(() => {
-                handleClose();
-            }, 3000)
-        }
+        dispatch(sendFeedbackThunk({ 
+            email: sessionStorage.getItem("email"), 
+            comment: fields.comment 
+        }));
+
+        // Close modal after 3 seconds
+        setTimeout(() => {
+            handleClose();
+        }, 3000);
     };
 
     const handleChange = (e) => {

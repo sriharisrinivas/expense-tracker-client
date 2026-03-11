@@ -3,12 +3,10 @@ import { useContext, useState, useEffect } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
+import { fetchCatalogThunk } from '../../Redux/Action/CatalogAction';
+import { createExpenseThunk, updateExpenseThunk, fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';
 import { ExpenseContext } from '../Home/home';
 import './CreateExpense.css';
-import axios from 'axios';
-import { API_END_POINTS } from '../../config';
-import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
 import moment from 'moment';
 import dayjs from 'dayjs';
 const { TextArea } = Input;
@@ -60,26 +58,16 @@ function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
     const [catalogData, setCatalogData] = useState({});
     const dispatch = useDispatch();
     const loaderState = useSelector(state => state.loaderReducer);
+    const catalogState = useSelector(state => state.catalogReducer?.catalog || {});
 
     useEffect(() => {
-        const fetchCatalog = async () => {
-            try {
-                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_CATALOG + "?type=CATEGORY,ACCOUNT";
-                const response = await axios.get(url, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                    }
-                });
-                // Handle catalog data as needed
-                setCatalogData(response.data.catalog || {});
-            } catch (error) {
-                console.log(error);
-            }
-        };
+        dispatch(fetchCatalogThunk("CATEGORY,ACCOUNT"));
+    }, [dispatch]);
 
-        fetchCatalog();
-    }, []);
+    // Update catalogData when catalogState changes
+    useEffect(() => {
+        setCatalogData(catalogState);
+    }, [catalogState]);
 
     // Update form when editingExpense changes
     useEffect(() => {
@@ -125,49 +113,21 @@ function CreateExpense({ handleCancel, editingExpense, filter = {} }) {
         }
 
         if (validateForm()) {
-            console.log("first", activeTab, form);
             setSubmitted(true);
-            dispatch(startLoaderAction());
             
-            try {
-                if (editingExpense) {
-                    // Update expense
-                    const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.UPDATE_EXPENSE;
-                    await axios.put(url, { ...form, type: activeTab, expenseId: editingExpense.expenseId }, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                        }
-                    });
-                } else {
-                    // Create expense
-                    const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.CREATE_EXPENSE;
-                    await axios.post(url, { ...form, type: activeTab }, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                        }
-                    });
-                }
-                
-                // Fetch updated expenses after creating/updating
-                const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
-                const response = await axios.post(getUrl, filter, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                    }
-                });
-
-                if (response.data) {
-                    setForm(initialFormState);
-                }
-                
-                dispatch(setExpensesAction(response.data));
-                dispatch(stopLoaderAction());
-            } catch (error) {
-                console.log(error);
-                dispatch(stopLoaderAction());
+            if (editingExpense) {
+                // Update expense
+                dispatch(updateExpenseThunk({ 
+                    ...form, 
+                    type: activeTab, 
+                    expenseId: editingExpense.expenseId 
+                }));
+            } else {
+                // Create expense
+                dispatch(createExpenseThunk({ 
+                    ...form, 
+                    type: activeTab 
+                }));
             }
         }
     };

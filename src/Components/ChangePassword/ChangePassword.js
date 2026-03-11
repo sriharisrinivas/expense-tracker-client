@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { API_END_POINTS } from '../../config';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
-import { useDispatch } from 'react-redux';
+import { changePasswordThunk } from '../../Redux/Action/AuthAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 function ChangePassword({ show, handleClose }) {
 
     const dispatch = useDispatch();
+    const loaderState = useSelector(state => state.loaderReducer);
 
     const [fields, setFields] = useState({
         oldPassword: '',
@@ -35,25 +35,13 @@ function ChangePassword({ show, handleClose }) {
             return;
         }
 
+        dispatch(changePasswordThunk(fields));
 
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.CHANGE_PASSWORD;
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-            },
-            body: JSON.stringify(fields)
-        };
-
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        dispatch(stopLoaderAction());
-        if (response.status == 200) {
-            handleClose();
-        } else {
-            response = await response.json();
-            setErrorMessage(response.message);
+        // Close modal after successful change
+        if (!loaderState.loading) {
+            setTimeout(() => {
+                handleClose();
+            }, 1000);
         }
     };
 

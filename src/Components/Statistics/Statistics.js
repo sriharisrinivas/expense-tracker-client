@@ -5,10 +5,8 @@ import { ExpenseContext } from '../Home/home';
 import { Button, Layout, Menu, theme, DatePicker } from 'antd';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import CreateExpense from '../CreateExpense/CreateExpense';
-import { API_END_POINTS } from '../../config';
-import axios from 'axios';
 import dayjs from 'dayjs';
-import { setExpensesAction } from '../../Redux/Action/ExpenseAction';
+import { fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';
 import { useDispatch } from 'react-redux';
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -24,23 +22,8 @@ function Statistics(props) {
     };
 
     React.useEffect(() => {
-        const fetchExpenses = async () => {
-            try {
-                const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
-                const response = await axios.post(url, { filterByMonth: form.date }, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-                    }
-                });
-                dispatch(setExpensesAction(response.data));
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchExpenses();
-    }, [form.date]);
+        dispatch(fetchExpensesThunk(form.date));
+    }, [form.date, dispatch]);
 
     return (
         <>

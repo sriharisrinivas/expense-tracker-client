@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeRenderAlertMsgAction, renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
 import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import { loginUserThunk, registerUserThunk } from '../../Redux/Action/AuthAction';
 import ResetPassword from '../ResetPassword/ResetPassword';
 // import ProfilePictureUpload from '../ResetPassword/ProfilePictureUpload';
 // import { useHistory } from 'react-router-dom';
@@ -52,40 +53,10 @@ function LoginSignUpForm(props) {
         }, 2000);
     };
 
-    const registerUser = async () => {
-        if (signUpFields.email == '' || signUpFields.password == '' || signUpFields.email == '') {
-            setErrorMessage("Please Enter Mandatory Fields.");
-            return;
-        }
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(signUpFields)
-        };
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.CREATE_USER;
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        let parsedResponse = await response.json();
-        dispatch(stopLoaderAction());
-
-        if (response.status == 201) {
-            setErrorMessage("");
-            dispatch(renderAlertMessageAction({
-                message: "Registration Successful. Redirecting to home page.",
-                type: "success"
-            }));
-            navigateToHomePage(parsedResponse.token);
-        } else {
-            setErrorMessage(parsedResponse.message);
-        }
-    };
-
     const navigateToHomePage = (token) => {
         setErrorMessage("");
         dispatch(renderAlertMessageAction({
-            message: "Login SuccessFul.",
+            message: "Login Successful.",
             type: "success",
             show: true
         }));
@@ -93,29 +64,22 @@ function LoginSignUpForm(props) {
         navigate("/home");
     }
 
-    const loginUser = async () => {
+    const registerUser = async () => {
+        if (signUpFields.email == '' || signUpFields.password == '' || signUpFields.firstName == '') {
+            setErrorMessage("Please Enter Mandatory Fields.");
+            return;
+        }
+        
+        dispatch(registerUserThunk(signUpFields, navigateToHomePage));
+    };
 
+    const loginUser = async () => {
         if (loginFields.email == '' || loginFields.password == '') {
             setErrorMessage("Please Enter Mandatory Fields.");
             return;
         }
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(loginFields)
-        };
-        let url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.LOGIN;
-        dispatch(startLoaderAction());
-        let response = await fetch(url, options);
-        let parsedResponse = await response.json();
-        dispatch(stopLoaderAction());
-        if (response.status == 200) {
-            navigateToHomePage(parsedResponse.token);
-        } else {
-            setErrorMessage(parsedResponse.message);
-        }
+        
+        dispatch(loginUserThunk(loginFields, navigateToHomePage));
     };
 
     const onSubmit = (e) => {
