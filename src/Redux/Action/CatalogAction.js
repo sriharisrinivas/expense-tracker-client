@@ -2,19 +2,7 @@ import axios from "axios";
 import { API_END_POINTS } from "../../config";
 import { startLoaderAction, stopLoaderAction } from "./LoaderAction";
 import { renderAlertMessageAction, removeRenderAlertMsgAction } from "./AlertMessageAction";
-
-// Helper function to auto-dismiss alerts after 3 seconds
-const dispatchAlertWithAutoClose = (dispatch, message, type) => {
-    dispatch(renderAlertMessageAction({
-        message,
-        type,
-        show: true
-    }));
-    
-    setTimeout(() => {
-        dispatch(removeRenderAlertMsgAction());
-    }, 3000);
-};
+import { dispatchAlertWithAutoClose, getAuthHeaders } from "../helpers/reduxHelpers";
 
 // Action types for catalog
 export const CATALOG_CONSTANTS = {
@@ -28,12 +16,6 @@ export const setCatalogAction = (payload) => {
         payload: payload
     };
 };
-
-// Helper function to get auth headers
-const getAuthHeaders = () => ({
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-});
 
 // Thunk for fetching catalog
 export const fetchCatalogThunk = (types = "CATEGORY,ACCOUNT") => {

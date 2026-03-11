@@ -3,25 +3,7 @@ import { API_END_POINTS, CONSTANTS } from "../../config";
 import { startLoaderAction, stopLoaderAction } from "./LoaderAction";
 import { renderAlertMessageAction, removeRenderAlertMsgAction } from "./AlertMessageAction";
 import { clearVoiceInputTextAction, setParsedExpenseAction, toggleVoiceInputAction } from "./VoiceInputAction";
-
-// Helper function to auto-dismiss alerts after 3 seconds
-const dispatchAlertWithAutoClose = (dispatch, message, type) => {
-    dispatch(renderAlertMessageAction({
-        message,
-        type,
-        show: true
-    }));
-    
-    setTimeout(() => {
-        dispatch(removeRenderAlertMsgAction());
-    }, 3000);
-};
-
-// Helper function to get auth headers
-const getAuthHeaders = () => ({
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-});
+import { dispatchAlertWithAutoClose, getAuthHeaders } from "../helpers/reduxHelpers";
 
 // Thunk for sending feedback
 export const sendFeedbackThunk = (feedbackData) => {
@@ -86,7 +68,7 @@ export const parseExpenseFromTextThunk = (text) => {
         dispatch(startLoaderAction());
         
         try {
-            const url = CONSTANTS.SERVICE_URL + API_END_POINTS.PARSE_EXPENSE;
+            const url = process.env.REACT_APP_SERVER_URL + API_END_POINTS.PARSE_EXPENSE;
             
             const response = await fetch(url, {
                 method: 'POST',

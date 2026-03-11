@@ -3,25 +3,7 @@ import { API_END_POINTS } from "../../config";
 import { startLoaderAction, stopLoaderAction } from "./LoaderAction";
 import { renderAlertMessageAction, removeRenderAlertMsgAction } from "./AlertMessageAction";
 import { setExpensesAction } from "./ExpenseAction";
-
-// Helper function to auto-dismiss alerts after 3 seconds
-const dispatchAlertWithAutoClose = (dispatch, message, type) => {
-    dispatch(renderAlertMessageAction({
-        message,
-        type,
-        show: true
-    }));
-    
-    setTimeout(() => {
-        dispatch(removeRenderAlertMsgAction());
-    }, 3000);
-};
-
-// Helper function to get auth headers
-const getAuthHeaders = () => ({
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
-});
+import { dispatchAlertWithAutoClose, getAuthHeaders } from "../helpers/reduxHelpers";
 
 // Thunk for fetching expenses
 export const fetchExpensesThunk = (filterByMonth = null) => {

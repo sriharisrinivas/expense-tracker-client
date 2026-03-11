@@ -3,19 +3,7 @@ import { API_END_POINTS } from "../../config";
 import { REDUX_CONSTANTS } from "../reduxConstants";
 import { startLoaderAction, stopLoaderAction } from "./LoaderAction";
 import { renderAlertMessageAction, removeRenderAlertMsgAction } from "./AlertMessageAction";
-
-// Helper function to auto-dismiss alerts after 3 seconds
-const dispatchAlertWithAutoClose = (dispatch, message, type) => {
-    dispatch(renderAlertMessageAction({
-        message,
-        type,
-        show: true
-    }));
-    
-    setTimeout(() => {
-        dispatch(removeRenderAlertMsgAction());
-    }, 3000);
-};
+import { dispatchAlertWithAutoClose } from "../helpers/reduxHelpers";
 
 // Thunk for user login
 export const loginUserThunk = (loginFields, onSuccess) => {

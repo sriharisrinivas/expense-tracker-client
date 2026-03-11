@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import VoiceInput from '../../VoiceInput/VoiceInput';
 import { parseExpenseFromTextThunk } from '../../Redux/Action/MiscellaneousAction';
+import { dispatchAlertWithAutoClose } from '../../Redux/helpers/reduxHelpers';
 
 function ChatAssistContent() {
   const dispatch = useDispatch();
@@ -9,7 +10,8 @@ function ChatAssistContent() {
 
   const handleExtract = () => {
     if (!voiceText.trim()) {
-      alert("Please enter text or speak to extract expense details");
+      dispatchAlertWithAutoClose(dispatch, "Please enter text or speak to extract expense details", "error");
+
       return;
     }
     dispatch(parseExpenseFromTextThunk(voiceText));
@@ -27,8 +29,8 @@ function ChatAssistContent() {
       <br />
 
       <VoiceInput />
-      <div>
-        <button onClick={handleExtract}>Extract</button>
+      <div className='d-flex justify-content-end mt-3'>
+        <button className='btn btn-outline-primary' onClick={handleExtract}>Extract</button>
       </div>
     </div>
   );

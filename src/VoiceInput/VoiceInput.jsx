@@ -62,8 +62,7 @@ export default function VoiceInput() {
 const container = {
     display: "flex",
     alignItems: "center",
-    gap: "10px",
-    width: "150px",
+    gap: "10px"
 };
 
 const input = {
