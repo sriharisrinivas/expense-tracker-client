@@ -18,8 +18,7 @@ const dispatchAlertWithAutoClose = (dispatch, message, type) => {
 
 // Action types for catalog
 export const CATALOG_CONSTANTS = {
-    SET_CATALOG: "SET_CATALOG",
-    CLEAR_CATALOG: "CLEAR_CATALOG"
+    SET_CATALOG: "SET_CATALOG"
 };
 
 // Sync action to set catalog
@@ -27,13 +26,6 @@ export const setCatalogAction = (payload) => {
     return {
         type: CATALOG_CONSTANTS.SET_CATALOG,
         payload: payload
-    };
-};
-
-// Sync action to clear catalog
-export const clearCatalogAction = () => {
-    return {
-        type: CATALOG_CONSTANTS.CLEAR_CATALOG
     };
 };
 
@@ -59,13 +51,5 @@ export const fetchCatalogThunk = (types = "CATEGORY,ACCOUNT") => {
             dispatchAlertWithAutoClose(dispatch, "Failed to fetch catalog", "error");
             return { success: false, error };
         }
-    };
-};
-
-// Thunk for clearing catalog
-export const clearCatalogThunk = () => {
-    return (dispatch) => {
-        dispatch(clearCatalogAction());
-        return { success: true };
     };
 };

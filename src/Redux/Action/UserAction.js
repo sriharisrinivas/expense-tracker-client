@@ -91,8 +91,3 @@ export const updateProfilePictureThunk = (payload) => {
         }
     };
 };
-
-// Legacy thunk for backward compatibility
-export const updateProfilePicture = (payload) => {
-    return updateProfilePictureThunk(payload);
-};

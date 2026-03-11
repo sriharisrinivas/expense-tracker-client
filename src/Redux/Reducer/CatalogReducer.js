@@ -14,8 +14,6 @@ export const catalogReducer = (state = initialState, action) => {
                 ...state,
                 catalog: action.payload
             };
-        case CATALOG_CONSTANTS.CLEAR_CATALOG:
-            return initialState;
         default:
             return state;
     }

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
-import { API_END_POINTS } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeRenderAlertMsgAction, renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
-import { startLoaderAction, stopLoaderAction } from '../../Redux/Action/LoaderAction';
+import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
 import { loginUserThunk, registerUserThunk } from '../../Redux/Action/AuthAction';
 import ResetPassword from '../ResetPassword/ResetPassword';
 // import ProfilePictureUpload from '../ResetPassword/ProfilePictureUpload';
@@ -45,12 +43,6 @@ function LoginSignUpForm(props) {
         } else {
             setSignUpFields(pre => ({ ...pre, [e.target.name]: e.target.value }));
         }
-    };
-
-    const removeAlertMessage = () => {
-        setTimeout(() => {
-            dispatch(removeRenderAlertMsgAction());
-        }, 2000);
     };
 
     const navigateToHomePage = (token) => {
