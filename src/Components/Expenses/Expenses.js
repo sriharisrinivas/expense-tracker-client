@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table } from 'antd';
+import { Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table, Tag } from 'antd';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,23 +61,20 @@ function Expenses() {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
+            render: text => <span className='text-capitalize' style={{ color: '#555' }}>{text}</span>,
         },
+        // {
+        //     title: 'Account',
+        //     dataIndex: 'account',
+        //     key: 'account',
+        // },
         {
-            title: 'Account',
-            dataIndex: 'account',
-            key: 'account',
-        },
-        {
-            title: 'Income',
-            dataIndex: 'income',
-            key: 'income',
-            render: (income) => getCurrenySymbol(income)
-        },
-        {
-            title: 'Expense',
-            dataIndex: 'expense',
-            key: 'expense',
-            render: (expense) => getCurrenySymbol(expense)
+            title: "Amount",
+            render: (_, record) => (
+                <Tag color={record.income ? 'green' : 'red'} key={record._id}>
+                    {getCurrenySymbol(record.income || record.expense)}
+                </Tag>
+            )
         },
         {
             title: 'Action',
@@ -146,13 +143,13 @@ function Expenses() {
             <Row>
                 <Col span={12}>
                     <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
-                        <p>{getCurrenySymbol(totalExpenses)}</p>
+                        <p style={{ color: "red" }}>{getCurrenySymbol(totalExpenses)}</p>
                     </Card>
                 </Col>
 
                 <Col span={12}>
                     <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <p>{getCurrenySymbol(totalIncome)}</p>
+                        <p style={{ color: "green" }}>{getCurrenySymbol(totalIncome)}</p>
                     </Card>
                 </Col>
 
