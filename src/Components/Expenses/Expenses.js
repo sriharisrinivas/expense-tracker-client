@@ -143,13 +143,17 @@ function Expenses() {
             <Row>
                 <Col span={12}>
                     <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
-                        <p style={{ color: "red" }}>{getCurrenySymbol(totalExpenses)}</p>
+                        <Tag color="red">
+                            {getCurrenySymbol(totalExpenses)}
+                        </Tag>
                     </Card>
                 </Col>
 
                 <Col span={12}>
                     <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <p style={{ color: "green" }}>{getCurrenySymbol(totalIncome)}</p>
+                        <Tag color="green">
+                            {getCurrenySymbol(totalIncome)}
+                        </Tag>
                     </Card>
                 </Col>
 
