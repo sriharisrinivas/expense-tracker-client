@@ -54,12 +54,12 @@ function HeaderComponent() {
             >
                 <i onClick={() => setExpanded(!expanded)} className="fa-solid fa-bars me-2 header-toggle" style={{ color: '#fff', fontSize: "20px" }}></i>
 
-                <button className='btn btn-outline-light d-flex align-items-center gap-2' onClick={() => {
+                {/* <button className='btn btn-outline-light d-flex align-items-center gap-2' onClick={() => {
                     dispatch(toggleVoiceInputAction(true));
                 }}>
                     Chat Assistant
                     <FaRocketchat />
-                </button>
+                </button> */}
                 {/* <button className='btn btn-outline-info d-flex align-items-center me-4' onClick={onClickClearDB}><i className="fa-solid fa-plus me-2"></i>Clear DB</button> */}
                 <Settings onChangePassword={onChangePassword} />
             </Header>

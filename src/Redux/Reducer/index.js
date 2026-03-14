@@ -7,6 +7,7 @@ import { darkModeReducer } from "./DarkModeReducer";
 import { expensesReducer } from "./ExpensesReducer";
 import { catalogReducer } from "./CatalogReducer";
 import { voiceInputReducer } from "./VoiceInputReducer";
+import { budgetPlannerReducer } from "./BudgetPlannerReducer";
 
 export const rootReducer = combineReducers({
     AlertMessageReducer: AlertMessageReducer,
@@ -16,5 +17,6 @@ export const rootReducer = combineReducers({
     darkModeReducer: darkModeReducer,
     expensesReducer: expensesReducer,
     catalogReducer: catalogReducer,
-    voiceInputReducer: voiceInputReducer
+    voiceInputReducer: voiceInputReducer,
+    budgetPlannerReducer: budgetPlannerReducer
 })

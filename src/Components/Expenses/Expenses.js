@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table, Tag } from 'antd';
 import _ from 'lodash';
 import React, { useState } from 'react';
@@ -9,15 +9,19 @@ import { deleteExpenseThunk, fetchExpensesThunk } from '../../Redux/Action/Expen
 import CreateExpense from '../CreateExpense/CreateExpense';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import './Expenses.css';
+import { toggleVoiceInputAction } from '../../Redux/Action/VoiceInputAction';
+import { FaRocketchat } from 'react-icons/fa';
+import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
 
 function Expenses() {
     const [form, setForm] = React.useState({ date: null, formattedDate: null });
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
+    const [viewMode, setViewMode] = useState(false);
     const expensesState = useSelector(state => state.expensesReducer);
     const parsedExpense = useSelector(state => state.voiceInputReducer.parsedExpense);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
 
     // Calculate total expenses and income
@@ -39,12 +43,21 @@ function Expenses() {
 
     const handleEdit = (record) => {
         setEditingExpense(record);
+        setViewMode(false);
+        setIsModalOpen(true);
+    };
+
+    const handleView = (record) => {
+        setEditingExpense(record);
+        setViewMode(true);
         setIsModalOpen(true);
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
         setEditingExpense(null);
+        dispatch({ type: REDUX_CONSTANTS.CLEAR_PARSED_EXPENSE }); // Clear parsed expense when modal is closed
+        setViewMode(false);
     };
 
     const handleDelete = async (expenseId) => {
@@ -63,11 +76,6 @@ function Expenses() {
             key: 'description',
             render: text => <span className='text-capitalize' style={{ color: '#555' }}>{text}</span>,
         },
-        // {
-        //     title: 'Account',
-        //     dataIndex: 'account',
-        //     key: 'account',
-        // },
         {
             title: "Amount",
             render: (_, record) => (
@@ -81,6 +89,11 @@ function Expenses() {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
+                    <EyeOutlined
+                        onClick={() => handleView(record)}
+                        style={{ cursor: 'pointer', fontSize: '16px', color: '#52c41a' }}
+                        title="View"
+                    />
                     <EditOutlined
                         onClick={() => handleEdit(record)}
                         style={{ cursor: 'pointer', fontSize: '16px', color: '#1890ff' }}
@@ -116,8 +129,8 @@ function Expenses() {
         <div className=''>
             {isModalOpen && (
                 <ReusableModal isModalOpen={isModalOpen} handleCancel={handleCancel}
-                    title="Track Expense" footer={null} width={500}
-                    children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} prefilledData={parsedExpense} />} />
+                    title={viewMode ? "View Expense" : "Track Expense"} footer={null} width={500}
+                    children={<CreateExpense handleCancel={handleCancel} editingExpense={editingExpense} prefilledData={parsedExpense} viewMode={viewMode} />} />
             )}
 
             <div className='m-3 d-flex justify-content-between' style={{ color: 'white' }} >
@@ -133,9 +146,19 @@ function Expenses() {
             <hr />
 
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-                <span>Filter By: </span>
-                <DatePicker onChange={onDateChange} picker="month" value={form.date} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 15px' }}>
+                <div>
+                    <span>Filter By: </span>
+                    <DatePicker onChange={onDateChange} picker="month" value={form.date} />
+                </div>
+                <div>
+                    <button className='btn btn-outline-dark d-flex align-items-center gap-2' onClick={() => {
+                        dispatch(toggleVoiceInputAction(true));
+                    }}>
+                        Chat Assistant
+                        <FaRocketchat />
+                    </button>
+                </div>
             </div>
             <hr />
 

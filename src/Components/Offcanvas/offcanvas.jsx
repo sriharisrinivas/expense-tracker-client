@@ -50,16 +50,11 @@ function NewSideBar({ ...props }) {
                                 icon: <UserOutlined />,
                                 label: 'Expenses',
                             },
-                            // {
-                            //     key: 'statistics',
-                            //     icon: <VideoCameraOutlined />,
-                            //     label: 'Statistics',
-                            // },
                             {
-                                key: 'budget',
+                                key: 'budget-planner',
                                 icon: <UploadOutlined />,
-                                label: 'Budget',
-                            },
+                                label: 'Budget Planner',
+                            }
                         ]}
                     />
                 </Offcanvas.Body>

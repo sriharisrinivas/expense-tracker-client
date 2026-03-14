@@ -1,9 +1,8 @@
-import { DatePicker, Input, InputNumber, Select, Space, Tabs, Button } from 'antd';
+import { DatePicker, Input, InputNumber, Select, Space, Tabs, Button, Descriptions } from 'antd';
 import { useContext, useState, useEffect } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { renderAlertMessageAction } from '../../Redux/Action/AlertMessageAction';
-import { fetchCatalogThunk } from '../../Redux/Action/CatalogAction';
 import { createExpenseThunk, updateExpenseThunk, fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';
 import { ExpenseContext } from '../Home/home';
 import './CreateExpense.css';
@@ -30,7 +29,7 @@ const items = [
     // },
 ];
 
-function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {} }) {
+function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {}, viewMode = false }) {
 
     const { setExpanded } = useContext(ExpenseContext);
     const initialFormState = {
@@ -63,19 +62,9 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
     );
     const [activeTab, setActiveTab] = useState(editingExpense?.type || "expense");
     const [submitted, setSubmitted] = useState(false);
-    const [catalogData, setCatalogData] = useState({});
     const dispatch = useDispatch();
     const loaderState = useSelector(state => state.loaderReducer);
     const catalogState = useSelector(state => state.catalogReducer?.catalog || {});
-
-    useEffect(() => {
-        dispatch(fetchCatalogThunk("CATEGORY,ACCOUNT"));
-    }, [dispatch]);
-
-    // Update catalogData when catalogState changes
-    useEffect(() => {
-        setCatalogData(catalogState);
-    }, [catalogState]);
 
     // Update form when editingExpense or prefilledData changes
     useEffect(() => {
@@ -166,8 +155,57 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
 
     const handleDDChange = (value, name) => {
         setForm(prev => ({ ...prev, [name]: value }))
+    };
+    
+
+    if (viewMode) {
+        const descriptionItems = [
+            {
+                label: activeTab === 'income' ? 'Income' : 'Expense',
+                span: { xl: 12, xxl: 12 },
+                children: form.amount,
+            },
+            {
+                label: 'Account',
+                span: { xl: 12, xxl: 12 },
+                children: form.account,
+            },
+            {
+                label: 'Description',
+                span: { xl: 24, xxl: 24 },
+                children: form.description || '-',
+            },
+            {
+                label: 'Date',
+                span: { xl: 12, xxl: 12 },
+                children: form.formattedDate ? new Date(form.formattedDate).toLocaleDateString() : '-',
+            },
+            {
+                label: 'Category',
+                span: { xl: 12, xxl: 12 },
+                children: form.category,
+            },
+            {
+                label: 'Note',
+                span: { xl: 24, xxl: 24 },
+                children: form.note || '-',
+            },
+        ];
+
+        return (
+            <div>
+                <Descriptions
+                    title={activeTab === 'income' ? 'Income' : 'Expense'} Details
+                    bordered
+                    column={{ xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}
+                    items={descriptionItems}
+                />
+                <div className='d-flex justify-content-end mt-4'>
+                    <Button onClick={handleCancel}>Close</Button>
+                </div>
+            </div>
+        );
     }
-    console.log("first, ", form)
 
     return (
         <div>
@@ -192,7 +230,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "account")}
                                 value={form.account || undefined}
-                                options={catalogData.ACCOUNT || []}
+                                options={catalogState.ACCOUNT || []}
                             />
                         </Col>
 
@@ -214,7 +252,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
                                 style={{ width: 120 }}
                                 onChange={(value) => handleDDChange(value, "category")}
                                 value={form.category || undefined}
-                                options={catalogData.CATEGORY || []}
+                                options={catalogState.CATEGORY || []}
                             />
                         </Col>
                     </Row>

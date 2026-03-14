@@ -8,6 +8,7 @@ import Statistics from '../Statistics/Statistics';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import { toggleVoiceInputAction } from '../../Redux/Action/VoiceInputAction';
 import ChatAssistContent from '../ChatAssistContent/ChatAssistContent';
+import BudgetPlanner from '../Budget/BudgetPlanner';
 
 const { Content } = Layout;
 
@@ -30,7 +31,7 @@ function ContentContainer() {
             )}
             {selectedMenu === "expenses" && <Expenses />}
             {selectedMenu === "statistics" && <Statistics />}
-            {/* {selectedMenu === "budget" && <div>Budget</div>} */}
+            {selectedMenu === "budget-planner" && <BudgetPlanner />}
         </Content>
     )
 }

@@ -6,6 +6,7 @@ import "./home.css";
 import { fetchUserProfileThunk } from '../../Redux/Action/UserAction';
 import ContentContainer from '../ContentContainer/ContentContainer';
 import { fetchExpensesThunk } from '../../Redux/Action/ExpenseThunks';
+import { fetchCatalogThunk } from '../../Redux/Action/CatalogAction';
 import NewSideBar from '../Offcanvas/offcanvas';
 // import { socket } from '../../helpers/socket-connections';
 
@@ -25,6 +26,7 @@ function Home() {
 
         // Fetch user profile using thunk
         dispatch(fetchUserProfileThunk());
+        dispatch(fetchCatalogThunk("CATEGORY,ACCOUNT"));
     }, [dispatch]);
 
 

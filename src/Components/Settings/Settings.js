@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
 // import { socket } from '../../helpers/socket-connections';
 import { useNavigate } from 'react-router-dom';
+import { dispatchAlertWithAutoClose } from '../../Redux/helpers/reduxHelpers';
 
 const Settings = ({ onChangePassword }) => {
 
@@ -26,9 +27,7 @@ const Settings = ({ onChangePassword }) => {
 
     const onLogout = () => {
         removeOnlineUser(userDetails);
-        dispatch({
-            type: REDUX_CONSTANTS.CLEAR_STATE
-        });
+        dispatchAlertWithAutoClose(dispatch, "You have been logged out.", "success");
         navigate("/");
     };
 
