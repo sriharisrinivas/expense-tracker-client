@@ -1,48 +1,38 @@
 import { DeleteOutlined, EditOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table, Tag } from 'antd';
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrenySymbol } from '../../helpers/helpers';
-import { setBudgetDateAction, clearBudgetDateAction } from '../../Redux/Action/BudgetPlannerAction';
+import { setBudgetDateAction, clearBudgetDateAction, fetchBudgetsThunk, deleteBudgetThunk } from '../../Redux/Action/BudgetPlannerAction';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import SetBudgetContent from './SetBudgetContent';
 
-const stylesCardFn = info => {
-    if (info.props.variant === 'outlined') {
-        return {
-            root: {
-                borderColor: '#696FC7',
-                boxShadow: '0 2px 8px #A7AAE1',
-                borderRadius: 8,
-            },
-            extra: {
-                color: '#696FC7',
-            },
-            title: {
-                fontSize: 16,
-                fontWeight: 500,
-                color: '#A7AAE1',
-            },
-        };
-    }
-};
-
 function BudgetPlanner() {
-
 
     const dispatch = useDispatch();
     const selectedDate = useSelector(state => state.budgetPlannerReducer.selectedDate);
     const budgetItems = useSelector(state => state.budgetPlannerReducer.budgetItems);
+    console.log("budgetItems", budgetItems);
     const [isModalOpen, setIsModalOpen] = useState({ open: false, category: null });
     const catalogState = useSelector(state => state.catalogReducer.catalog);
     let categories = catalogState ? catalogState["CATEGORY"] : [];
 
+    // Fetch budgets on component mount with selected date
+    useEffect(() => {
+        const monthString = selectedDate.format('YYYY-MM');
+        dispatch(fetchBudgetsThunk(monthString));
+    }, [dispatch, selectedDate]);
+
     const onDateChange = (date) => {
         if (date) {
             dispatch(setBudgetDateAction(date));
+            // Fetch budgets for selected month
+            const monthString = date.format('YYYY-MM');
+            dispatch(fetchBudgetsThunk(monthString));
         } else {
             dispatch(clearBudgetDateAction());
+            dispatch(fetchBudgetsThunk());
         }
     };
 
@@ -50,7 +40,9 @@ function BudgetPlanner() {
         setIsModalOpen({ open: true, category });
     };
 
-    const handleDelete = () => { };
+    const handleDelete = (budgetId) => {
+        dispatch(deleteBudgetThunk(budgetId));
+    };
 
     const handleCancel = () => { setIsModalOpen({ open: false, category: null }); };
 
@@ -71,7 +63,7 @@ function BudgetPlanner() {
 
             {/* Saved Budgets */}
             {
-                budgetItems.length && <>
+                budgetItems.length > 0 && <>
                     <label style={{ margin: '10px' }}><b>Budgeted Categories for this Month.</b></label>
                     <Row>
                         {

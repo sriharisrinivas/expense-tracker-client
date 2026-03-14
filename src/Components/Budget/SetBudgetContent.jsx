@@ -1,34 +1,38 @@
 import { Button, Col, Form, InputNumber, Row } from 'antd';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { dispatchAlertWithAutoClose } from '../../Redux/helpers/reduxHelpers';
-import { createBudget, updateBudget } from '../../Redux/Action/BudgetPlannerAction';
+import { createBudgetThunk, updateBudgetThunk } from '../../Redux/Action/BudgetPlannerAction';
 
 function SetBudgetContent({ handleCancel, budgetData }) {
 
     const dispatch = useDispatch();
+    const selectedDate = useSelector(state => state.budgetPlannerReducer.selectedDate);
 
     // Determine if we're in edit or add mode
     const isEditMode = budgetData?.budgetId;
 
     const [form, setForm] = React.useState({
         limit: isEditMode ? budgetData.limit : null,
-        category: isEditMode ? budgetData.category : budgetData?.value
+        category: isEditMode ? budgetData.category : budgetData?.value,
+        date: isEditMode ? budgetData.date : selectedDate.toISOString()
     });
 
     useEffect(() => {
         if (isEditMode) {
             setForm({
                 limit: budgetData.limit,
-                category: budgetData.category
+                category: budgetData.category,
+                date: budgetData.date
             });
         } else {
             setForm({
                 limit: null,
-                category: budgetData?.value
+                category: budgetData?.value,
+                date: selectedDate.toISOString()
             });
         }
-    }, [budgetData, isEditMode]);
+    }, [budgetData, isEditMode, selectedDate]);
 
     const handleDDChange = (value, name) => {
         setForm(prev => ({ ...prev, [name]: value }));
@@ -41,9 +45,19 @@ function SetBudgetContent({ handleCancel, budgetData }) {
         }
 
         if (isEditMode) {
-            dispatch(updateBudget(budgetData.budgetId, form, handleCancel));
+            dispatch(updateBudgetThunk({
+                budgetId: budgetData.budgetId,
+                limit: form.limit,
+                category: form.category,
+                date: form.date
+            }));
+            handleCancel();
         } else {
-            dispatch(createBudget(form, handleCancel));
+            dispatch(createBudgetThunk({
+                limit: form.limit,
+                category: form.category,
+                date: form.date
+            }, handleCancel));
         }
     };
 

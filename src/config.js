@@ -51,7 +51,7 @@ export const API_END_POINTS = {
     CREATE_BUDGET: "/createBudget",
     UPDATE_BUDGET: "/updateBudget",
     DELETE_BUDGET: "/deleteBudget",
-    GET_BUDGET: "/getBudget"
+    GET_BUDGETS: "/getBudget"
 }
 
 export const modes = {

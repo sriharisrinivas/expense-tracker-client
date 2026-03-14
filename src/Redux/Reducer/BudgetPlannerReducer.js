@@ -3,14 +3,7 @@ import { REDUX_CONSTANTS } from "../reduxConstants";
 
 const initialState = {
     selectedDate: dayjs(new Date()),
-    budgetItems: [
-        {
-            id: 1,
-            limit: 500,
-            spent: 100,
-            category: "Food",
-        }
-    ]
+    budgetItems: []
 };
 
 export const budgetPlannerReducer = (state = initialState, action) => {
@@ -20,7 +13,7 @@ export const budgetPlannerReducer = (state = initialState, action) => {
         case REDUX_CONSTANTS.CLEAR_BUDGET_DATE:
             return { ...state, selectedDate: dayjs(new Date()) };
         case REDUX_CONSTANTS.SET_BUDGET_ITEMS:
-            return { ...state, budgetItems: action.payload}
+            return { ...state, budgetItems: action.payload || [] };
         default:
             return state;
     }
