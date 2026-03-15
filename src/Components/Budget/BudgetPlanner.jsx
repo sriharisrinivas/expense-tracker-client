@@ -8,6 +8,7 @@ import { getCurrenySymbol } from '../../helpers/helpers';
 import { setBudgetDateAction, clearBudgetDateAction, fetchBudgetsThunk, deleteBudgetThunk } from '../../Redux/Action/BudgetPlannerAction';
 import ReusableModal from '../ReusableModal/ReusableModal';
 import SetBudgetContent from './SetBudgetContent';
+import moment from 'moment';
 
 function BudgetPlanner() {
 
@@ -79,11 +80,11 @@ function BudgetPlanner() {
                 {/* Saved Budgets */}
                 {
                     budgetItems.length > 0 && <>
-                        <label style={{ margin: '10px' }}><b>Budgeted Categories for this Month.</b></label>
+                        <label style={{ margin: '10px' }}><b>Budget for month of {moment(selectedDate).format("MMMM YYYY")}.</b></label>
                         <Row>
                             {
                                 budgetItems.map(budget => (
-                                    <Col key={budget.budgetId} sm={12} md={12} lg={12} xl={4} >
+                                    <Col key={budget.budgetId} sm={12} md={12}  >
 
                                         <Card
                                             size="small"
