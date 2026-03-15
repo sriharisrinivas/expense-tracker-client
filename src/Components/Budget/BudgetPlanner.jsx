@@ -137,7 +137,7 @@ function BudgetPlanner() {
 
 
                 {/*Budget To Be Created*/}
-                <label style={{ margin: '10px' }}><b>Not Budgeted for this month.</b></label>
+                <label style={{ margin: '10px' }}><b>Budget not allocated for the month of {moment(selectedDate).format("MMMM YYYY")}.</b></label>
                 <Row>
                     {
                         notBudgetedCategories.map(category => (

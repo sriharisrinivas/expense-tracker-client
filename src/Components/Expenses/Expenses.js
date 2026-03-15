@@ -166,14 +166,6 @@ function Expenses() {
             {/* LeaderBoard */}
             <Row>
                 <Col span={8}>
-                    <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
-                        <Tag color="red">
-                            {getCurrenySymbol(totalExpenses)}
-                        </Tag>
-                    </Card>
-                </Col>
-
-                <Col span={8}>
                     <Card size="small" title="Total Income" style={{ margin: '5px' }}>
                         <Tag color="green">
                             {getCurrenySymbol(totalIncome)}
@@ -184,7 +176,15 @@ function Expenses() {
                  <Col span={8}>
                     <Card size="small" title="Net Amount" style={{ margin: '5px' }}>
                         <Tag color={totalIncome - totalExpenses >= 0 ? 'green' : 'red'}>
-                            {getCurrenySymbol(totalIncome - totalExpenses)}
+                            {getCurrenySymbol(Math.abs(totalIncome - totalExpenses))}
+                        </Tag>
+                    </Card>
+                </Col>
+
+                <Col span={8}>
+                    <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
+                        <Tag color="red">
+                            {getCurrenySymbol(totalExpenses)}
                         </Tag>
                     </Card>
                 </Col>

@@ -14,6 +14,7 @@ import {
 import { Button, Layout, Menu, theme } from 'antd';
 import { useContext } from 'react';
 import { ExpenseContext } from '../Home/home';
+import { FaCross, FaWindowClose } from 'react-icons/fa';
 const { Header, Sider, Content } = Layout;
 
 function NewSideBar({ ...props }) {
@@ -35,7 +36,7 @@ function NewSideBar({ ...props }) {
                     <div className='d-flex justify-content-around align-items-center' style={{ width: "100vw" }}>
                         <AvatarComponent data={userDetails} size={40} />
                         <span className='me-2' style={{ color: 'white', fontWeight: 'bold' }}>{userDetails.firstName} {userDetails.lastName}</span>
-                        <img style={{ cursor: "pointer" }} src="/cross-button.png" onClick={handleClose} width={20} height={20} />
+                        <FaWindowClose style={{ color: 'white', cursor: 'pointer' }} onClick={handleClose} />
                     </div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
