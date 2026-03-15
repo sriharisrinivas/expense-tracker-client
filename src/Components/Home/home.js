@@ -17,7 +17,27 @@ function Home() {
     const dispatch = useDispatch();
 
     const [expanded, setExpanded] = React.useState(false);
+    const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
     const [selectedMenu, setSelectedMenu] = React.useState("dashboard");
+    const initialMenuSetRef = React.useRef(false);
+
+    // Handle window resize
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Set initial default menu based on screen size (only on first mount)
+    useEffect(() => {
+        if (!initialMenuSetRef.current) {
+            setSelectedMenu(windowWidth < 576 ? "expenses" : "dashboard");
+            initialMenuSetRef.current = true;
+        }
+    }, []);
 
     // Toggling Online/Offline status when tab is not active
     useEffect(() => {
