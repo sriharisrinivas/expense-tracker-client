@@ -24,6 +24,7 @@ function NewSideBar({ ...props }) {
 
     const onChangeMenu = (event) => {
         setSelectedMenu(event.key);
+        handleClose();
     };
 
     return (

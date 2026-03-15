@@ -2,15 +2,27 @@
     width: 100%;
 }
 
-.login-left-section {
+/* .login-left-section {
     height: 100vh;
-    /* background: url("../../../public/stock-photo-coffee-cup-and-notebook-with-to-do-list-on-blue-rustic-desk-from-above-planning-and-design-concept-384639760.jpg"); */
-    background: url("../../../public/89125.jpg");
-    /* background: url("../../../public/Crush\ Your\ Own\ To-Do\ List.jfif"); */
+    background: url("../../../public/expense-tracker-image.png");
     background-size: cover;
     width: 100%;
     display: flex;
     align-items: center;
+} */
+
+.login-left-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+        url("../../../public/expense-tracker-image.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* @media (max-width: 576px) {
@@ -21,7 +33,6 @@
 
 .login-signup-container {
     padding: 60px;
-    /* background: linear-gradient(178deg, #c3dae4, transparent); */
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -40,6 +51,7 @@
     max-height: 650px;
     overflow-y: scroll;
 }
+
 
 .input-group-text {
     color: inherit;

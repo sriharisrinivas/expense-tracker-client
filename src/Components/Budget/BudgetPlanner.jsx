@@ -41,7 +41,7 @@ function BudgetPlanner() {
     };
 
     const handleDelete = (budgetId) => {
-        dispatch(deleteBudgetThunk(budgetId));
+        dispatch(deleteBudgetThunk(budgetId, selectedDate));
     };
 
     const handleCancel = () => { setIsModalOpen({ open: false, category: null }); };
@@ -52,11 +52,11 @@ function BudgetPlanner() {
                 <ReusableModal isModalOpen={isModalOpen.open} handleCancel={handleCancel}
                     title={isModalOpen.category?.id ? "Edit Budget" : "Set Budget"}
                     footer={null}
-                    width={180}
+                    width={230}
                     children={<SetBudgetContent handleCancel={handleCancel} budgetData={isModalOpen.category} />} />
             )}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-                <span>Filter By: </span>
+                <span>Budget Month: </span>
                 <DatePicker onChange={onDateChange} picker="month" value={selectedDate} />
             </div>
 
@@ -72,7 +72,7 @@ function BudgetPlanner() {
 
                                     <Card
                                         size="small"
-                                        title={budget.category}
+                                        title={budget.label}
                                         actions={[
                                             <EditOutlined key="edit" style={{ color: "blue" }} onClick={() => onClickSetBudget(budget)} />,
                                             <Popconfirm
@@ -126,7 +126,7 @@ function BudgetPlanner() {
                 {
                     categories.map(category => (
                         <Col key={category.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                            <Card key={category.id} size="small" title={category.value} style={{ margin: '5px' }}>
+                            <Card key={category.id} size="small" title={category.label} style={{ margin: '5px' }}>
                                 <button onClick={() => onClickSetBudget(category)} className='btn btn-outline-success'>Set Budget</button>
                             </Card>
                         </Col>

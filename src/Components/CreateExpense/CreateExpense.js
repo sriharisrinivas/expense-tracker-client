@@ -103,7 +103,6 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
             setActiveTab("expense");
             setSubmitted(false);
             setExpanded(false);
-            handleCancel();
         }
     }, [loaderState.loading, submitted]);
 
@@ -129,13 +128,13 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
                     ...form, 
                     type: activeTab, 
                     expenseId: editingExpense.expenseId 
-                }));
+                }, handleCancel));
             } else {
                 // Create expense
                 dispatch(createExpenseThunk({ 
                     ...form, 
                     type: activeTab 
-                }));
+                }, handleCancel));
             }
         }
     };

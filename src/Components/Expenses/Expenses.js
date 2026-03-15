@@ -61,7 +61,7 @@ function Expenses() {
     };
 
     const handleDelete = async (expenseId) => {
-        dispatch(deleteExpenseThunk(expenseId));
+        dispatch(deleteExpenseThunk(expenseId, handleCancel));
     };
 
     const columns = [
@@ -139,7 +139,7 @@ function Expenses() {
                     setEditingExpense(null);
                     setIsModalOpen(true);
                 }} className='btn btn-primary'>
-                    <i className="fas fa-plus"></i> Add Expense
+                    <i className="fas fa-plus"></i> Expense
                 </button>
 
             </div>
@@ -155,7 +155,7 @@ function Expenses() {
                     <button className='btn btn-outline-dark d-flex align-items-center gap-2' onClick={() => {
                         dispatch(toggleVoiceInputAction(true));
                     }}>
-                        Chat Assistant
+                        AI
                         <FaRocketchat />
                     </button>
                 </div>

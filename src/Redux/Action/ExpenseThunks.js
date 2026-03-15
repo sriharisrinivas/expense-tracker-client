@@ -29,7 +29,7 @@ export const fetchExpensesThunk = (filterByMonth = null) => {
 };
 
 // Thunk for creating expense
-export const createExpenseThunk = (expenseData) => {
+export const createExpenseThunk = (expenseData, handleCancel) => {
     return async (dispatch) => {
         dispatch(startLoaderAction());
         
@@ -39,6 +39,8 @@ export const createExpenseThunk = (expenseData) => {
                 headers: getAuthHeaders()
             });
             
+            handleCancel(); // Close modal after successful creation
+
             // Fetch updated expenses after creating
             const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
             const response = await axios.post(getUrl, {}, {
@@ -59,7 +61,7 @@ export const createExpenseThunk = (expenseData) => {
 };
 
 // Thunk for updating expense
-export const updateExpenseThunk = (expenseData) => {
+export const updateExpenseThunk = (expenseData, handleCancel) => {
     return async (dispatch) => {
         dispatch(startLoaderAction());
         
@@ -69,6 +71,8 @@ export const updateExpenseThunk = (expenseData) => {
                 headers: getAuthHeaders()
             });
             
+            handleCancel(); // Close modal after successful update
+
             // Fetch updated expenses after updating
             const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;
             const response = await axios.post(getUrl, {}, {
@@ -89,7 +93,7 @@ export const updateExpenseThunk = (expenseData) => {
 };
 
 // Thunk for deleting expense
-export const deleteExpenseThunk = (expenseId) => {
+export const deleteExpenseThunk = (expenseId, handleCancel) => {
     return async (dispatch) => {
         dispatch(startLoaderAction());
         
@@ -99,6 +103,8 @@ export const deleteExpenseThunk = (expenseId) => {
                 data: { expenseId },
                 headers: getAuthHeaders()
             });
+
+            handleCancel(); // Close modal after successful deletion
             
             // Fetch updated expenses after deletion
             const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_EXPENSES;

@@ -65,6 +65,7 @@ function SetBudgetContent({ handleCancel, budgetData }) {
         <div>
             <Row>
                 <Col className='mt-3'>
+                    <p>Set limit for <strong>{budgetData.label}.</strong></p>
                     <span className='field-required'>* </span>Limit <br />
                     <InputNumber
                         placeholder="Amount"

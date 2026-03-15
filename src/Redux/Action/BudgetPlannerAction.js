@@ -101,7 +101,7 @@ export const updateBudgetThunk = (budgetData) => {
 };
 
 // Thunk for deleting budget
-export const deleteBudgetThunk = (budgetId) => {
+export const deleteBudgetThunk = (budgetId, selectedDate) => {
     return async (dispatch) => {
         dispatch(startLoaderAction());
 
@@ -114,7 +114,7 @@ export const deleteBudgetThunk = (budgetId) => {
 
             // Fetch updated budgets after deletion
             const getUrl = process.env.REACT_APP_SERVER_URL + API_END_POINTS.GET_BUDGETS;
-            const response = await axios.post(getUrl, {}, { headers: getAuthHeaders() });
+            const response = await axios.post(getUrl, { filterByMonth: selectedDate }, { headers: getAuthHeaders() });
             
             dispatch(setBudgetItemsAction(response.data.budgets || []));
             dispatchAlertWithAutoClose(dispatch, "Budget successfully deleted.", "success");
