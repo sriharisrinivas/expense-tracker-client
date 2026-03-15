@@ -12,9 +12,10 @@ import './Expenses.css';
 import { toggleVoiceInputAction } from '../../Redux/Action/VoiceInputAction';
 import { FaRocketchat } from 'react-icons/fa';
 import { REDUX_CONSTANTS } from '../../Redux/reduxConstants';
+import dayjs from 'dayjs';
 
 function Expenses() {
-    const [form, setForm] = React.useState({ date: null, formattedDate: null });
+    const [form, setForm] = React.useState({ date: dayjs(new Date()) });
 
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingExpense, setEditingExpense] = useState(null);

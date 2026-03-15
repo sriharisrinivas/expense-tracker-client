@@ -1,5 +1,6 @@
 import { DeleteOutlined, EditOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Card, Col, DatePicker, Layout, Popconfirm, Row, Space, Table, Tag } from 'antd';
+import { Button, Card, DatePicker, Layout, Popconfirm, Space, Table, Tag } from 'antd';
+import { Col, Row } from 'react-bootstrap';
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,83 +60,94 @@ function BudgetPlanner() {
                     width={230}
                     children={<SetBudgetContent handleCancel={handleCancel} budgetData={isModalOpen.category} />} />
             )}
+
+            <div className='m-3 d-flex justify-content-between' style={{ color: 'white' }} >
+                <span className='sidebar-header'>Budget</span>
+            </div>
+
+            <hr />
+
+
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
                 <span>Budget Month: </span>
                 <DatePicker onChange={onDateChange} picker="month" value={selectedDate} />
             </div>
+            <hr />
 
+            <Row className="budget-container">
 
-            {/* Saved Budgets */}
-            {
-                budgetItems.length > 0 && <>
-                    <label style={{ margin: '10px' }}><b>Budgeted Categories for this Month.</b></label>
-                    <Row>
-                        {
-                            budgetItems.map(budget => (
-                                <Col key={budget.budgetId} xs={24} sm={12} md={8} lg={6} xl={4}>
-
-                                    <Card
-                                        size="small"
-                                        title={budget.label}
-                                        actions={[
-                                            <EditOutlined key="edit" style={{ color: "blue" }} onClick={() => onClickSetBudget(budget)} />,
-                                            <Popconfirm
-                                                title="Delete Budget"
-                                                description="Are you sure you want to delete this budget?"
-                                                onConfirm={() => handleDelete(budget.budgetId)}
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <DeleteOutlined
-                                                    key="delete"
-                                                    style={{ cursor: 'pointer', fontSize: '16px', color: '#ff4d4f' }}
-                                                    title="Delete"
-                                                />
-                                            </Popconfirm>
-                                        ]}
-                                    >
-                                        <div className='m-1'>
-                                            <p>
-                                                Limit: &nbsp;
-                                                <Tag>
-                                                    {getCurrenySymbol(budget.limit || 0)}
-                                                </Tag>
-                                            </p>
-                                            <p >
-                                                Spent: &nbsp;
-                                                <Tag color={budget.limit - budget.spent < 0 ? "red" : "green"}>
-                                                    {getCurrenySymbol(budget.spent || 0)}
-                                                </Tag>
-                                            </p>
-                                            <p>
-                                                Remaining: &nbsp;
-                                                <Tag color={budget.limit - budget.spent < 0 ? "red" : "green"}>
-                                                    {getCurrenySymbol((budget.limit || 0) - (budget.spent || 0))}
-                                                </Tag>
-                                            </p>
-                                        </div>
-                                    </Card>
-                                </Col>
-                            ))
-                        }
-                    </Row>
-                </>
-            }
-
-
-
-            {/*Budget To Be Created*/}
-            <label style={{ margin: '10px' }}><b>Not Budgeted for this month.</b></label>
-            <Row>
+                {/* Saved Budgets */}
                 {
-                    notBudgetedCategories.map(category => (
-                        <Col key={category.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                            <Card key={category.id} size="small" title={category.label} style={{ margin: '5px' }}>
-                                <button onClick={() => onClickSetBudget(category)} className='btn btn-outline-success'>Set Budget</button>
-                            </Card>
-                        </Col>
-                    ))
+                    budgetItems.length > 0 && <>
+                        <label style={{ margin: '10px' }}><b>Budgeted Categories for this Month.</b></label>
+                        <Row>
+                            {
+                                budgetItems.map(budget => (
+                                    <Col key={budget.budgetId} sm={12} md={12} lg={12} xl={4} >
+
+                                        <Card
+                                            size="small"
+                                            title={budget.label}
+                                            actions={[
+                                                <EditOutlined key="edit" style={{ color: "blue" }} onClick={() => onClickSetBudget(budget)} />,
+                                                <Popconfirm
+                                                    title="Delete Budget"
+                                                    description="Are you sure you want to delete this budget?"
+                                                    onConfirm={() => handleDelete(budget.budgetId)}
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    <DeleteOutlined
+                                                        key="delete"
+                                                        style={{ cursor: 'pointer', fontSize: '16px', color: '#ff4d4f' }}
+                                                        title="Delete"
+                                                    />
+                                                </Popconfirm>
+                                            ]}
+                                        >
+                                            <div className='m-1'>
+                                                <p>
+                                                    Limit: &nbsp;
+                                                    <Tag>
+                                                        {getCurrenySymbol(budget.limit || 0)}
+                                                    </Tag>
+                                                </p>
+                                                <p >
+                                                    Spent: &nbsp;
+                                                    <Tag color={budget.limit - budget.spent < 0 ? "red" : "green"}>
+                                                        {getCurrenySymbol(budget.spent || 0)}
+                                                    </Tag>
+                                                </p>
+                                                <p>
+                                                    Remaining: &nbsp;
+                                                    <Tag color={budget.limit - budget.spent < 0 ? "red" : "green"}>
+                                                        {getCurrenySymbol((budget.limit || 0) - (budget.spent || 0))}
+                                                    </Tag>
+                                                </p>
+                                            </div>
+                                        </Card>
+                                    </Col>
+                                ))
+                            }
+                        </Row>
+                    </>
                 }
+
+
+
+                {/*Budget To Be Created*/}
+                <label style={{ margin: '10px' }}><b>Not Budgeted for this month.</b></label>
+                <Row>
+                    {
+                        notBudgetedCategories.map(category => (
+                            <Col key={category.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                                <Card key={category.id} size="small" title={category.label} style={{ margin: '5px' }}>
+                                    <button onClick={() => onClickSetBudget(category)} className='btn btn-outline-success'>Set Budget</button>
+                                </Card>
+                            </Col>
+                        ))
+                    }
+                </Row>
             </Row>
         </>
     );

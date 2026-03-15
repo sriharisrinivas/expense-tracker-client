@@ -9,6 +9,7 @@ import ReusableModal from '../ReusableModal/ReusableModal';
 import { toggleVoiceInputAction } from '../../Redux/Action/VoiceInputAction';
 import ChatAssistContent from '../ChatAssistContent/ChatAssistContent';
 import BudgetPlanner from '../Budget/BudgetPlanner';
+import Dashboard from '../Dashboard/Dashboard';
 
 const { Content } = Layout;
 
@@ -29,6 +30,7 @@ function ContentContainer() {
                     title="Chat Assistant" footer={null} width={500}
                     children={<ChatAssistContent handleCancel={handleCancel} />} />
             )}
+            {selectedMenu === "dashboard" && <Dashboard />}
             {selectedMenu === "expenses" && <Expenses />}
             {selectedMenu === "statistics" && <Statistics />}
             {selectedMenu === "budget-planner" && <BudgetPlanner />}

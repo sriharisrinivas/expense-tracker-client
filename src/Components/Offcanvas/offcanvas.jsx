@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import AvatarComponent from '../AvatarComponent/AvatarComponent';
 
 import {
+    DashboardFilled,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     UploadOutlined,
@@ -46,6 +47,11 @@ function NewSideBar({ ...props }) {
                         onClick={onChangeMenu}
                         defaultSelectedKeys={['1']}
                         items={[
+                            {
+                                key: 'dashboard',
+                                icon: <DashboardFilled />,
+                                label: 'Dashboard',
+                            },
                             {
                                 key: 'expenses',
                                 icon: <UserOutlined />,

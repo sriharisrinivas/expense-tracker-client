@@ -17,7 +17,7 @@ function Home() {
     const dispatch = useDispatch();
 
     const [expanded, setExpanded] = React.useState(false);
-    const [selectedMenu, setSelectedMenu] = React.useState("expenses");
+    const [selectedMenu, setSelectedMenu] = React.useState("dashboard");
 
     // Toggling Online/Offline status when tab is not active
     useEffect(() => {
