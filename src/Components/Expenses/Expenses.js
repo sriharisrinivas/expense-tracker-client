@@ -163,48 +163,33 @@ function Expenses() {
             </div>
             <hr />
 
-            {/* LeaderBoard */}
-            <Row>
-                <Col span={8}>
-                    <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <Tag color="green">
-                            {getCurrenySymbol(totalIncome)}
-                        </Tag>
-                    </Card>
-                </Col>
-
-                 <Col span={8}>
-                    <Card size="small" title="Net Amount" style={{ margin: '5px' }}>
-                        <Tag color={totalIncome - totalExpenses >= 0 ? 'green' : 'red'}>
-                            {getCurrenySymbol(Math.abs(totalIncome - totalExpenses))}
-                        </Tag>
-                    </Card>
-                </Col>
-
-                <Col span={8}>
-                    <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
-                        <Tag color="red">
-                            {getCurrenySymbol(totalExpenses)}
-                        </Tag>
-                    </Card>
-                </Col>
-
-                {/* <Col span={12}>
-                    <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <p>15000</p>
-                    </Card>
-                </Col>
-
-                <Col span={12}>
-                    <Card size="small" title="Total Income" style={{ margin: '5px' }}>
-                        <p>15000</p>
-                    </Card>
-                </Col> */}
-            </Row>
-
-
-
             <Row className='expenses-container'>
+                {/* LeaderBoard */}
+                <Row>
+                    <Col span={8}>
+                        <Card size="small" title="Total Income" style={{ margin: '5px' }}>
+                            <Tag color="green">
+                                {getCurrenySymbol(totalIncome)}
+                            </Tag>
+                        </Card>
+                    </Col>
+
+                    <Col span={8}>
+                        <Card size="small" title="Net Amount" style={{ margin: '5px' }}>
+                            <Tag color={totalIncome - totalExpenses >= 0 ? 'green' : 'red'}>
+                                {getCurrenySymbol(Math.abs(totalIncome - totalExpenses))}
+                            </Tag>
+                        </Card>
+                    </Col>
+
+                    <Col span={8}>
+                        <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
+                            <Tag color="red">
+                                {getCurrenySymbol(totalExpenses)}
+                            </Tag>
+                        </Card>
+                    </Col>
+                </Row>
                 <Col span={24}>
                     {Object.keys(expensesData).length === 0 ? (
                         <Card size="small" style={{ margin: '5px', textAlign: 'center' }}>

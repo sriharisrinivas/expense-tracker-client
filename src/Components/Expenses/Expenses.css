@@ -1,8 +1,4 @@
-.expenses-container {
-    max-height: calc(100vh - 345px);
-    overflow: auto;
-}
-
+.expenses-container,
 .budget-container {
     max-height: calc(100vh - 200px);
     overflow: auto;
