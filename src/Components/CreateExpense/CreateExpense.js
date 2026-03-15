@@ -48,7 +48,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
             category: editingExpense.category,
             account: editingExpense.account,
             note: editingExpense.note || "",
-            date: moment(editingExpense.date),
+            date: editingExpense.date,
             formattedDate: editingExpense.date
         } : prefilledData ? {
             amount: prefilledData.amount || prefilledData.expense || null,
@@ -56,7 +56,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
             category: prefilledData.category || "",
             account: prefilledData.account || "",
             note: prefilledData.note || "",
-            date: prefilledData.date ? dayjs(prefilledData.date) : null,
+            date: prefilledData.date ? prefilledData.date : null,
             formattedDate: prefilledData.date || null
         } : initialFormState
     );
@@ -75,7 +75,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
                 category: editingExpense.category,
                 account: editingExpense.account,
                 note: editingExpense.note || "",
-                date: dayjs(editingExpense.date),
+                date: editingExpense.date,
                 formattedDate: editingExpense.date
             });
             setActiveTab(editingExpense.type || "expense");
@@ -86,7 +86,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
                 category: prefilledData.category || "",
                 account: prefilledData.account || "",
                 note: prefilledData.note || "",
-                date: prefilledData.date ? dayjs(prefilledData.date) : null,
+                date: prefilledData.date ? prefilledData.date : null,
                 formattedDate: prefilledData.date || null
             });
             setActiveTab(prefilledData.type || "expense");
@@ -148,8 +148,10 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
     }
 
     const onDateChange = (date, formattedDate) => {
-        console.log(date, formattedDate);
-        setForm(prev => ({ ...prev, formattedDate: formattedDate, date }))
+        // Convert to YYYY-MM-DD format to avoid timezone issues
+        const dateString = date ? date.format('YYYY-MM-DD') : null;
+        console.log(date, formattedDate, dateString);
+        setForm(prev => ({ ...prev, formattedDate: formattedDate, date: dateString }))
     };
 
     const handleDDChange = (value, name) => {
@@ -242,7 +244,7 @@ function CreateExpense({ handleCancel, editingExpense, prefilledData, filter = {
                     <Row className='d-flex justify-content-between'>
                         <Col className='mt-3'>
                             <Form.Label><span className='field-required'>* </span>Date</Form.Label><br />
-                            <DatePicker onChange={onDateChange} value={form.date} />
+                            <DatePicker onChange={onDateChange} value={form.date ? dayjs(form.date) : null} />
                         </Col>
 
                         <Col className='mt-3'>

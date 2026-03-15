@@ -22,7 +22,7 @@ function Expenses() {
     const expensesState = useSelector(state => state.expensesReducer);
     const parsedExpense = useSelector(state => state.voiceInputReducer.parsedExpense);
     const dispatch = useDispatch();
-    const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date).toDateString());
+    const expensesData = _.groupBy((expensesState.expenses || []), (expense) => new Date(expense.date + 'T00:00:00').toDateString());
 
     // Calculate total expenses and income
     const totalExpenses = (expensesState.expenses || []).reduce((sum, expense) => {
@@ -164,7 +164,7 @@ function Expenses() {
 
             {/* LeaderBoard */}
             <Row>
-                <Col span={12}>
+                <Col span={8}>
                     <Card size="small" title="Total Expenses" style={{ margin: '5px' }}>
                         <Tag color="red">
                             {getCurrenySymbol(totalExpenses)}
@@ -172,10 +172,18 @@ function Expenses() {
                     </Card>
                 </Col>
 
-                <Col span={12}>
+                <Col span={8}>
                     <Card size="small" title="Total Income" style={{ margin: '5px' }}>
                         <Tag color="green">
                             {getCurrenySymbol(totalIncome)}
+                        </Tag>
+                    </Card>
+                </Col>
+
+                 <Col span={8}>
+                    <Card size="small" title="Net Amount" style={{ margin: '5px' }}>
+                        <Tag color={totalIncome - totalExpenses >= 0 ? 'green' : 'red'}>
+                            {getCurrenySymbol(totalIncome - totalExpenses)}
                         </Tag>
                     </Card>
                 </Col>
@@ -192,6 +200,8 @@ function Expenses() {
                     </Card>
                 </Col> */}
             </Row>
+
+
 
             <Row className='expenses-container'>
                 <Col span={24}>
