@@ -18,6 +18,10 @@ function BudgetPlanner() {
     const catalogState = useSelector(state => state.catalogReducer.catalog);
     let categories = catalogState ? catalogState["CATEGORY"] : [];
 
+    let notBudgetedCategories = categories.filter(category => {
+        return !budgetItems.some(budget => budget.category === category.value);
+    });
+
     // Fetch budgets on component mount with selected date
     useEffect(() => {
         const monthString = selectedDate.format('YYYY-MM');
@@ -124,7 +128,7 @@ function BudgetPlanner() {
             <label style={{ margin: '10px' }}><b>Not Budgeted for this month.</b></label>
             <Row>
                 {
-                    categories.map(category => (
+                    notBudgetedCategories.map(category => (
                         <Col key={category.id} xs={24} sm={12} md={8} lg={6} xl={4}>
                             <Card key={category.id} size="small" title={category.label} style={{ margin: '5px' }}>
                                 <button onClick={() => onClickSetBudget(category)} className='btn btn-outline-success'>Set Budget</button>
